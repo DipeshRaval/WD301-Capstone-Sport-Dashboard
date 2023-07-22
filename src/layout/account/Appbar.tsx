@@ -1,12 +1,7 @@
 import { Fragment, useState, useContext, useEffect } from 'react'
 import { Disclosure, Menu, Transition, Switch } from '@headlessui/react'
 import { UserCircleIcon } from '@heroicons/react/24/outline'
-import { Link, useLocation } from "react-router-dom"
 import Logo from "../../assets/logo.png"
-import { set } from 'react-hook-form'
-// const isAuth = !!localStorage.getItem('authToken')
-// console.log(isAuth);
-// console.log(userNavigation);
 
 const intial = [
     { name: 'Profile', href: '#' },
@@ -17,18 +12,9 @@ const classNames = (...classes: string[]): string => classes.filter(Boolean).joi
 
 const Appbar = () => {
   const [userNavigation,setUserNavigation] = useState(intial)
-  // const userNavigation = props.isAuth ? [
-  //   { name: 'Profile', href: '#' },
-  //   { name: 'Sign out', href: '/logout' },
-  // ] : [
-  //   { name: 'Sign in', href: '/signin' },
-  //   { name: 'Sign up', href: '/signup' },
-  // ]
 
   useEffect(() => {
     const isAuth = !!localStorage.getItem('authToken')
-    console.log(userNavigation);
-    console.log(isAuth)
     if(!isAuth)
     {
       setUserNavigation([
