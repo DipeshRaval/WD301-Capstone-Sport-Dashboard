@@ -46,6 +46,7 @@ export default function Match(props : Props, State : State) {
       const data = await response.json();
 
       setMatch(data)
+      console.log(match);
     } catch (error) {
       console.error('Sign-in failed:', error);
     }

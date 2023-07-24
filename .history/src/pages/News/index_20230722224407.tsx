@@ -7,7 +7,7 @@ export default function NewsContainer() {
   return (
     <div className='mt-4'>
       <h1 className='text-xl font-bold text-gray-900 my-2'>Treading News</h1>
-      <div className='w-10/12'>
+      <div>
         <div className='flex justify-between'>
           <div className='flex text-gray-800 p-3'>
             <p className='px-10 py-2 border-gray-800 border-b-4 border-grey-900 font-bold bg-gray-100 rounded'>Your news</p>
@@ -27,7 +27,7 @@ export default function NewsContainer() {
         </div>
       </div>
 
-      <div className='overflow-y-auto w-10/12'>
+      <div className='overflow-y-auto h-7/12'>
         <Article />
       </div>
     </div>

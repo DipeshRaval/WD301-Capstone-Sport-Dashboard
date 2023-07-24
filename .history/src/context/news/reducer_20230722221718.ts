@@ -3,7 +3,7 @@ interface Sport {
   name : string;
 }
 
-export interface News {
+interface News {
   id: number;
   title: string;
   thumbnail: string;

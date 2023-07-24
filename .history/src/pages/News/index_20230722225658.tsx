@@ -2,12 +2,13 @@ import React from 'react'
 import { FunnelIcon } from '@heroicons/react/24/outline'
 import News from './Article'
 import Article from './Article'
+import { Link } from 'react-router-dom'
 
 export default function NewsContainer() {
   return (
     <div className='mt-4'>
       <h1 className='text-xl font-bold text-gray-900 my-2'>Treading News</h1>
-      <div className='w-10/12'>
+      <div>
         <div className='flex justify-between'>
           <div className='flex text-gray-800 p-3'>
             <p className='px-10 py-2 border-gray-800 border-b-4 border-grey-900 font-bold bg-gray-100 rounded'>Your news</p>

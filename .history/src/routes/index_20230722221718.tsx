@@ -5,7 +5,6 @@ import AccountLayout from "../layout/account";
 import Signup from "../pages/signup";
 import Logout from "../pages/logout";
 import LiveMatch from "../pages/matches";
-import NewsDetails from "../pages/News/NewsDetails";
 
 const router = createBrowserRouter([
   {
@@ -13,10 +12,6 @@ const router = createBrowserRouter([
     element: <AccountLayout />,
     children: [
       { index: true, element: <LiveMatch /> },
-      {
-        path : "/articles/:articleID",
-        element : <NewsDetails />
-      }
     ]
   },
   {
