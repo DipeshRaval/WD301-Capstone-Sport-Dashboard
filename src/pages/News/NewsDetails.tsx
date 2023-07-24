@@ -2,38 +2,62 @@ import { Dialog, Transition, Listbox } from "@headlessui/react";
 import React, { Fragment, useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { API_ENDPOINT } from "../../config/constants";
+import Article from "./Article";
 
+interface Sport {
+  id: number;
+  name: string;
+}
+
+interface ArticleDetails {
+  id: number;
+  title: string;
+  summary: string;
+  thumbnail: string;
+  sport: Sport;
+  content: string;
+  date: string;
+}
 
 const NewsDetails = () => {
   let [isOpen, setIsOpen] = useState(true);
   let navigate = useNavigate();
-  const {articleID} = useParams()
+  const { articleID } = useParams();
+
+  const [article, setArticle] = useState<ArticleDetails | undefined>(undefined);
 
   function closeModal() {
     setIsOpen(false);
     navigate("../../");
   }
 
-  const fetchArticle = async (id : string) => {
+  const fetchArticle = async (id: any) => {
     try {
       const response = await fetch(`${API_ENDPOINT}/articles/${id}`, {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json' },
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
       });
 
       if (!response.ok) {
-        throw new Error('Failed to fetch article');
+        throw new Error("Failed to fetch article");
       }
 
       const data = await response.json();
+      setArticle(data);
     } catch (error) {
-      console.error('Sign-in failed:', error);
+      console.error("Sign-in failed:", error);
     }
-  }
+  };
 
-  useEffect(()=>{
-    fetchArticle(articleID)
-  },[articleID])
+  useEffect(() => {
+    fetchArticle(articleID);
+  }, [articleID]);
+
+  const getFormatedDate = (date: any) => {
+    const newDate = new Date(date);
+    const formatDate = newDate.toDateString();
+    return `${formatDate}`;
+  };
 
   return (
     <>
@@ -66,29 +90,36 @@ const NewsDetails = () => {
                     as="h3"
                     className="text-xl text-center border-b border-gray-600 pb-2 font-bold leading-6 text-gray-900"
                   >
-                    Legendary Coach Announces Retirement: Reflecting on a Storied Career
+                    {article?.title}
                   </Dialog.Title>
                   <div className="mt-2">
-                      <img src="https://images.pexels.com/photos/2260849/pexels-photo-2260849.jpeg" className="w-full h-56" alt="" />
+                    <img
+                      src={article?.thumbnail}
+                      className="w-full h-56"
+                      alt="thumbnail"
+                    />
 
-                      <div className="flex justify-between">
-                      <p className="mt-2 text-sm">
-                        <span className="font-bold">Sport Catagory : </span> Cricket
-                      </p> <p className="mt-2 text-sm">
-                        <span className="text- font-bold">End At : </span> Thu Jun 08 2023
+                    <div className="flex justify-between">
+                      <p className="mt-2 text-md">
+                        <span className="font-bold">Sport Catagory : </span>{" "}
+                        {article?.sport.name}
+                      </p>{" "}
+                      <p className="mt-2 text-md">
+                        <span className="font-bold">End At : </span>
+                        {getFormatedDate(article?.date?.substring(0, 10))}
                       </p>
-                      </div>
+                    </div>
 
-                      <p className="my-2 text-sm">
-                      <span className="font-bold">Discription : </span>
-                      In a moment that marks the end of an era, a legendary basketball coach has announced their retirement, bringing an illustrious career to a close. The coach's impact on the sport is immeasurable, with numerous championships, accolades, and a lasting legacy that will be remembered for generations.\n\nThroughout their career, the coach guided teams to remarkable success, instilling a winning culture, and nurturing the talents of their players. Their strategic brilliance, leadership, and ability to motivate and inspire have left an indelible mark on the basketball landscape.\n\nThe retirement announcement has prompted reflection on the coach's storied career, with fans and players alike reminiscing about memorable victories, iconic moments, and the coach's unwavering commitment to excellence. The coach's influence extends far beyond the court, as they have shaped the lives of countless individuals, instilling values of discipline, teamwork, and perseverance.\n\nAs the coach takes their final bow, the basketball community celebrates their remarkable achievements and expresses gratitude for the countless contributions they have made to the sport. Their retirement marks the end of an era but serves as a reminder of the enduring impact a legendary coach can have on the game of basketball
-                      </p>
-                      <button
-                        onClick={closeModal}
-                        className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                      >
-                        Close
-                      </button>
+                    <p className="my-2 text-sm">
+                      <span className="font-bold text-lg">Discription : </span>
+                      {article?.content}
+                    </p>
+                    <button
+                      onClick={closeModal}
+                      className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                    >
+                      Close
+                    </button>
                   </div>
                 </Dialog.Panel>
               </Transition.Child>
