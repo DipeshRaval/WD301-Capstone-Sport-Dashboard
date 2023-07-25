@@ -21,6 +21,7 @@ interface ArticleDetails {
 
 const NewsDetails = () => {
   let [isOpen, setIsOpen] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   let navigate = useNavigate();
   const { articleID } = useParams();
 
@@ -33,6 +34,7 @@ const NewsDetails = () => {
 
   const fetchArticle = async (id: any) => {
     try {
+      setIsLoading(true);
       const response = await fetch(`${API_ENDPOINT}/articles/${id}`, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
@@ -44,6 +46,7 @@ const NewsDetails = () => {
 
       const data = await response.json();
       setArticle(data);
+      setIsLoading(false);
     } catch (error) {
       console.error("Sign-in failed:", error);
     }
@@ -86,41 +89,51 @@ const NewsDetails = () => {
                 leaveTo="opacity-0 scale-95"
               >
                 <Dialog.Panel className="w-full max-w-2xl transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
-                  <Dialog.Title
-                    as="h3"
-                    className="text-xl text-center border-b border-gray-600 pb-2 font-bold leading-6 text-gray-900"
-                  >
-                    {article?.title}
-                  </Dialog.Title>
-                  <div className="mt-2">
-                    <img
-                      src={article?.thumbnail}
-                      className="w-full h-56"
-                      alt="thumbnail"
-                    />
+                  {isLoading ? (
+                    <p>Loading...</p>
+                  ) : (
+                    <>
+                      <Dialog.Title
+                        as="h3"
+                        className="text-xl text-center border-b border-gray-600 pb-2 font-bold leading-6 text-gray-900"
+                      >
+                        {article?.title}
+                      </Dialog.Title>
+                      <div className="mt-2">
+                        <img
+                          src={article?.thumbnail}
+                          className="w-full h-56"
+                          alt="thumbnail"
+                        />
 
-                    <div className="flex justify-between">
-                      <p className="mt-2 text-md">
-                        <span className="font-bold">Sport Catagory : </span>{" "}
-                        {article?.sport.name}
-                      </p>{" "}
-                      <p className="mt-2 text-md">
-                        <span className="font-bold">End At : </span>
-                        {getFormatedDate(article?.date?.substring(0, 10))}
-                      </p>
-                    </div>
+                        <div className="flex justify-between">
+                          <p className="mt-2 text-md">
+                            <span className="font-bold">Sport Catagory : </span>{" "}
+                            {article?.sport.name}
+                          </p>{" "}
+                          <p className="mt-2 text-md">
+                            <span className="font-bold">End At : </span>
+                            {getFormatedDate(article?.date?.substring(0, 10))}
+                          </p>
+                        </div>
 
-                    <p className="my-2 text-sm">
-                      <span className="font-bold text-lg">Discription : </span>
-                      {article?.content}
-                    </p>
-                    <button
-                      onClick={closeModal}
-                      className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                    >
-                      Close
-                    </button>
-                  </div>
+                        <div>
+                          <p className="my-2 text-sm h-56 overflow-y-auto">
+                            <span className="font-bold text-lg">
+                              Discription :{" "}
+                            </span>
+                            {article?.content}
+                          </p>
+                        </div>
+                        <button
+                          onClick={closeModal}
+                          className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                        >
+                          Close
+                        </button>
+                      </div>{" "}
+                    </>
+                  )}
                 </Dialog.Panel>
               </Transition.Child>
             </div>
