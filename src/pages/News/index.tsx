@@ -10,8 +10,6 @@ export default function NewsContainer() {
 
   const { news, isLoading, isError, errorMessage } = state;
 
-  const [articles, setArticle] = useState(news);
-
   if (news.length === 0 && isLoading) {
     return <span>Loading...</span>;
   }
@@ -21,18 +19,19 @@ export default function NewsContainer() {
   }
 
   const newsDispatch = useNewsDispatch();
+
   useEffect(() => {
     fetchNews(newsDispatch);
   }, []);
 
-  const filteredNews = (e: any) => {
-    const filterWith = e.target.textContent;
+  // const filteredNews = (e: any) => {
+  //   const filterWith = e.target.textContent;
 
-    const filteredData = news.filter((newsItem: any) => {
-      if (newsItem.sport.name === filterWith) return newsItem;
-    });
-    setArticle(filteredData);
-  };
+  //   const filteredData = news.filter((newsItem: any) => {
+  //     if (newsItem.sport.name === filterWith) return newsItem;
+  //   });
+  //   setArticle(filteredData);
+  // };
 
   return (
     <div className="mt-4 relative">
@@ -40,20 +39,11 @@ export default function NewsContainer() {
       <div className="w-10/12">
         <div className="flex justify-between">
           <div className="flex text-gray-800 p-3">
-            <p
-              onClick={() => {
-                setArticle(news);
-              }}
-              className="px-10 py-2 border-gray-800 border-b-4 border-grey-900 font-bold bg-gray-100 rounded"
-            >
+            <p className="px-10 py-2 border-gray-800 border-b-4 border-grey-900 font-bold bg-gray-100 rounded">
               All news
             </p>
-            <p className="px-10 py-2" onClick={filteredNews}>
-              Cricket
-            </p>
-            <p className="px-10 py-2" onClick={filteredNews}>
-              Basketball
-            </p>
+            <p className="px-10 py-2">Cricket</p>
+            <p className="px-10 py-2">Basketball</p>
           </div>
           <div className="flex justify-between items-center">
             <select
@@ -73,7 +63,7 @@ export default function NewsContainer() {
       </div>
 
       <div className="overflow-y-auto w-10/12 h-[65vh] relative bottom-0">
-        {articles.map((news: News) => {
+        {news.map((news: News) => {
           return <Article key={news.id} news={news} />;
         })}
       </div>

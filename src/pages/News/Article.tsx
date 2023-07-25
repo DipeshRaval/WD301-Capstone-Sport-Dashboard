@@ -1,6 +1,4 @@
-import React, { useEffect } from "react";
-import { fetchNews } from "../../context/news/action";
-import { useNewsDispatch, useNewsState } from "../../context/news/context";
+import React from "react";
 import { News } from "../../context/news/reducer";
 import { Link } from "react-router-dom";
 
