@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FunnelIcon } from "@heroicons/react/24/outline"; 
+import { FunnelIcon } from "@heroicons/react/24/outline";
 import ArticleList from "./ArticleList";
 import { fetchNews } from "../../context/news/action";
 import { useNewsDispatch } from "../../context/news/context";
@@ -9,6 +9,7 @@ import { Sport } from "../../context/sport/reducer"
 
 export default function NewsContainer() {
   const [filter,setFilter] = useState("")
+  const [sortBy, setSortBy] = useState("")
 
   const newsDispatch = useNewsDispatch();
   const sportDispatch = useSportDispatch();
@@ -25,7 +26,7 @@ export default function NewsContainer() {
     fetchNews(newsDispatch);
     fetchSport(sportDispatch)
   }, []);
-  
+
   return (
     <div className="mt-4 relative">
       <h1 className="text-xl font-bold text-gray-900 my-2">Treading News</h1>
@@ -44,10 +45,13 @@ export default function NewsContainer() {
               name=""
               id=""
               className="py-2 px-3 text-gray-600 bg-gray-100"
+              onChange={(e)=>{setSortBy(e.target.value);
+              }}
             >
-              <option value="">Sort By : Date</option>
+              <option value="">Sort By :</option>
               <option value="date">Date</option>
               <option value="name">Title</option>
+              <option value="sports">Sports</option>
             </select>
             <div className="bg-gray-100 rounded mx-2 p-3 text-gray-600">
               <FunnelIcon className="h-4 w-4" />
@@ -56,7 +60,7 @@ export default function NewsContainer() {
         </div>
       </div>
 
-      <ArticleList filter={filter}/>
+      <ArticleList sortBy={sortBy} filter={filter}/>
     </div>
   );
 }
