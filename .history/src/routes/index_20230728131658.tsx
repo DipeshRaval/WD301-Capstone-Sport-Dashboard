@@ -1,4 +1,5 @@
 import { Outlet, createBrowserRouter } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import Signin from "../pages/signin";
 import AccountLayout from "../layout/account";
 import Signup from "../pages/signup";

@@ -25,7 +25,10 @@ export default function NewsContainer() {
     fetchNews(newsDispatch);
     fetchSport(sportDispatch)
   }, []);
+
+  console.log(sports);
   
+
   return (
     <div className="mt-4 relative">
       <h1 className="text-xl font-bold text-gray-900 my-2">Treading News</h1>
@@ -35,7 +38,7 @@ export default function NewsContainer() {
             <p onClick={()=>{ setFilter("") }}  className={`cursor-pointer px-4 py-1 text-center ${filter === "" ? "border-gray-800 border-b-4 border-grey-900 font-bold bg-gray-100 rounded" : ""}`}>
               All news
             </p>
-            { !isLoading && sports.map((sport : Sport)=>(
+            {sports.map((sport : Sport)=>(
               <p className={`cursor-pointer px-4 py-1 text-center ${filter === sport.name ? "border-gray-800 border-b-4 border-grey-900 font-bold bg-gray-100 rounded" : ""}`} onClick={chnageFilter}>{ sport.name }</p>
             ))}
           </div>

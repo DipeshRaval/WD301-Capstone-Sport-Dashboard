@@ -32,7 +32,7 @@ export default function Article(props: Props) {
                 <p className="font-bold text-gray-500">
                   {getFormatedDate(news.date?.substring(0, 10))}
                 </p>
-                <p className="underline">Read more...</p>
+                  <p className="underline">Read more...</p>
               </div>
             </div>
 

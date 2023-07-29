@@ -1,43 +1,25 @@
 import React, { useEffect, useState } from "react";
 import { FunnelIcon } from "@heroicons/react/24/outline"; 
 import ArticleList from "./ArticleList";
-import { fetchNews } from "../../context/news/action";
-import { useNewsDispatch } from "../../context/news/context";
-import { useSportDispatch, useSportState } from "../../context/sport/context";
-import { fetchSport } from "../../context/sport/action";
-import { Sport } from "../../context/sport/reducer"
+
 
 export default function NewsContainer() {
   const [filter,setFilter] = useState("")
 
-  const newsDispatch = useNewsDispatch();
-  const sportDispatch = useSportDispatch();
-
-  const state: any = useSportState();
-
-  const { sports, isLoading, isError, errorMessage } = state
-
   const chnageFilter = (e : any) => {
     setFilter(e.target.textContent)
   }
-
-  useEffect(() => {
-    fetchNews(newsDispatch);
-    fetchSport(sportDispatch)
-  }, []);
-  
   return (
     <div className="mt-4 relative">
       <h1 className="text-xl font-bold text-gray-900 my-2">Treading News</h1>
       <div className="w-10/12">
         <div className="flex justify-between">
-          <div className="flex items-center text-gray-800 p-3 overflow-x-auto ">
-            <p onClick={()=>{ setFilter("") }}  className={`cursor-pointer px-4 py-1 text-center ${filter === "" ? "border-gray-800 border-b-4 border-grey-900 font-bold bg-gray-100 rounded" : ""}`}>
+          <div className="flex text-gray-800 p-3">
+            <p className="px-10 py-2 border-gray-800 border-b-4 border-grey-900 font-bold bg-gray-100 rounded">
               All news
             </p>
-            { !isLoading && sports.map((sport : Sport)=>(
-              <p className={`cursor-pointer px-4 py-1 text-center ${filter === sport.name ? "border-gray-800 border-b-4 border-grey-900 font-bold bg-gray-100 rounded" : ""}`} onClick={chnageFilter}>{ sport.name }</p>
-            ))}
+            <p className="px-10 py-2">Cricket</p>
+            <p className="px-10 py-2">Basketball</p>
           </div>
           <div className="flex justify-between items-center">
             <select

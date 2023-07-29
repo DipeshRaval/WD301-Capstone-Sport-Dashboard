@@ -15,6 +15,9 @@ export default function Article(props: Props) {
     return `${formatDate}`;
   };
 
+  console.log(props);
+  
+
   return (
     <>
       <Link to={`/articles/${news.id}`}>

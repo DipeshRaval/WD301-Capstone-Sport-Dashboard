@@ -1,7 +1,9 @@
 import React, { useEffect } from "react";
+import { ArrowPathIcon } from "@heroicons/react/24/outline";
 import { useMatchesDispatch } from "../../context/matches/context";
 import { fetchMatches } from "../../context/matches/action";
 import LiveMatchList from "./LiveMatchList";
+import News from "../News";
 
 export default function LiveMatch() {
   const matcheDispatch = useMatchesDispatch();
@@ -16,6 +18,7 @@ export default function LiveMatch() {
       <div className="overflow-x-auto mt-2 flex items-center w-full">
         <LiveMatchList />
       </div>
+      <News />
     </div>
   );
 }

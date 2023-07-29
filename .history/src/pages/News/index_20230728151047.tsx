@@ -25,18 +25,21 @@ export default function NewsContainer() {
     fetchNews(newsDispatch);
     fetchSport(sportDispatch)
   }, []);
+
+  console.log(sports);
   
+
   return (
     <div className="mt-4 relative">
       <h1 className="text-xl font-bold text-gray-900 my-2">Treading News</h1>
       <div className="w-10/12">
         <div className="flex justify-between">
-          <div className="flex items-center text-gray-800 p-3 overflow-x-auto ">
-            <p onClick={()=>{ setFilter("") }}  className={`cursor-pointer px-4 py-1 text-center ${filter === "" ? "border-gray-800 border-b-4 border-grey-900 font-bold bg-gray-100 rounded" : ""}`}>
+          <div className="flex text-gray-800 p-3 overflow-x-auto ">
+            <p onClick={()=>{ setFilter("") }}  className="text-center px-10 py-2 border-gray-800 border-b-4 border-grey-900 font-bold bg-gray-100 rounded">
               All news
             </p>
-            { !isLoading && sports.map((sport : Sport)=>(
-              <p className={`cursor-pointer px-4 py-1 text-center ${filter === sport.name ? "border-gray-800 border-b-4 border-grey-900 font-bold bg-gray-100 rounded" : ""}`} onClick={chnageFilter}>{ sport.name }</p>
+            {sports.map((sport : Sport)=>(
+              <p className="px-4 py-1 text-center" onClick={chnageFilter}>{ sport.name }</p>
             ))}
           </div>
           <div className="flex justify-between items-center">
