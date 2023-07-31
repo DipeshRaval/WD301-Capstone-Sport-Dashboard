@@ -4,8 +4,8 @@ import ArticleList from "./ArticleList";
 import { fetchNews } from "../../context/news/action";
 import { useNewsDispatch } from "../../context/news/context";
 import { useSportDispatch, useSportState } from "../../context/sport/context";
-import { fetchSport } from "../../context/sport/action";
 import { Sport } from "../../context/sport/reducer"
+import { fetchSport } from "../../context/sport/action";
 
 export default function NewsContainer() {
   const [filter,setFilter] = useState("")

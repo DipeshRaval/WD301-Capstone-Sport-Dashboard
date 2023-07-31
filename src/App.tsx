@@ -4,7 +4,8 @@ import "./App.css";
 import router from "./routes";
 import { MatchesProvider } from "./context/matches/context";
 import { NewsProvider } from "./context/news/context";
-import { SportProvider } from "./context/sport/context";
+import { SportProvider } from ".//context/sport/context";
+import { TeamProvider } from "./context/teams/context";
 
 function App() {
   return (
@@ -12,7 +13,9 @@ function App() {
       <MatchesProvider>
         <NewsProvider>
           <SportProvider>
-            <RouterProvider router={router} />
+            <TeamProvider>
+              <RouterProvider router={router} />
+            </TeamProvider>
           </SportProvider>
         </NewsProvider>
       </MatchesProvider>
