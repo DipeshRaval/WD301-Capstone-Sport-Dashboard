@@ -1,6 +1,11 @@
-interface Sport {
+export interface Sport {
   id : number;
   name : string;
+}
+
+export interface Team {
+  id : number;
+  name : string
 }
 
 export interface News {
@@ -11,6 +16,7 @@ export interface News {
   date: string;
   summary : string;
   sport : Sport;
+  teams : Team[];
 }
 
 export interface NewsState {

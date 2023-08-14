@@ -1,13 +1,8 @@
+import { Fragment, useState, useEffect } from "react";
 import { Dialog, Transition, Listbox } from "@headlessui/react";
-import React, { Fragment, useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { API_ENDPOINT } from "../../config/constants";
-import Article from "./Article";
-
-interface Sport {
-  id: number;
-  name: string;
-}
+import { Team, Sport } from "../../context/news/reducer";
 
 interface ArticleDetails {
   id: number;
@@ -17,6 +12,7 @@ interface ArticleDetails {
   sport: Sport;
   content: string;
   date: string;
+  teams: Team[];
 }
 
 const NewsDetails = () => {
@@ -29,7 +25,7 @@ const NewsDetails = () => {
 
   function closeModal() {
     setIsOpen(false);
-    navigate("../../");
+    navigate("../");
   }
 
   const fetchArticle = async (id: any) => {
@@ -48,7 +44,7 @@ const NewsDetails = () => {
       setArticle(data);
       setIsLoading(false);
     } catch (error) {
-      console.error("Sign-in failed:", error);
+      console.error("failed to fetch a article", error);
     }
   };
 
@@ -115,6 +111,23 @@ const NewsDetails = () => {
                             <span className="font-bold">End At : </span>
                             {getFormatedDate(article?.date?.substring(0, 10))}
                           </p>
+                        </div>
+
+                        <div className="flex my-2 items-center">
+                          {article?.teams.length !== 0 ? (
+                            <span className="font-bold text-lg mr-2">
+                              Team :{" "}
+                            </span>
+                          ) : (
+                            ""
+                          )}
+                          <span>
+                            {article?.teams
+                              .map((item) => {
+                                return ` ${item.name} `;
+                              })
+                              .join(" Vs ")}
+                          </span>
                         </div>
 
                         <div>
