@@ -58,7 +58,7 @@ export default function Match(props: Props, State: State) {
   return (
     <>
       {match.isRunning && (
-        <div className="border-2 mx-2 mb-1 rounded border-gray-400 p-2">
+        <div className="border-2 mx-2 mb-1 rounded border-gray-400 bg-gray-100 p-2">
           <div className=" flex justify-between w-48">
             <h3 className="font-bold text-gray-800">{match.sportName}</h3>
             <ArrowPathIcon

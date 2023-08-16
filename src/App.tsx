@@ -9,7 +9,7 @@ import { TeamProvider } from "./context/teams/context";
 
 function App() {
   return (
-    <div className="h-screen w-full mx-auto py-2">
+    <div className="h-screen w-full mx-auto">
       <MatchesProvider>
         <NewsProvider>
           <SportProvider>

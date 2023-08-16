@@ -1,7 +1,6 @@
 import React from "react";
 import { News } from "../../context/news/reducer";
 import { Link } from "react-router-dom";
-import { Team } from "../../context/teams/reducer";
 
 interface Props {
   key: number;
@@ -16,13 +15,11 @@ export default function Article(props: Props) {
     return `${formatDate}`;
   };
 
-  console.log(props.news.teams[0]?.name);
-
   return (
     <>
       <Link to={`/articles/${news.id}`}>
         <div className="flex justify-between w-full px-4 my-2">
-          <div className="border rounded-md w-full flex justify-between items-center">
+          <div className="border rounded-md w-full bg-white flex justify-between items-center">
             <div className="px-4">
               <p className="text-gray-700">{news.sport.name}</p>
               <h2 className="my-1 text-gray-800 text-2xl font-bold">
