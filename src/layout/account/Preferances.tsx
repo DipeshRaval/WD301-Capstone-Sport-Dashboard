@@ -75,7 +75,10 @@ export default function Preferances() {
                       <div className="flex flex-wrap p-3">
                         {!isLoading &&
                           sports.map((sport: Sport) => (
-                            <div className="flex m-2 items-center justify-between w-36">
+                            <div
+                              key={sport.id}
+                              className="flex m-2 items-center justify-between w-36"
+                            >
                               <label
                                 className="cursor-pointer"
                                 htmlFor={sport.name}
@@ -98,7 +101,10 @@ export default function Preferances() {
                       <div className="flex flex-wrap p-3">
                         {!isLoading &&
                           teams.map((team: Team) => (
-                            <div className="flex m-2 items-center justify-between w-36">
+                            <div
+                              key={team.id}
+                              className="flex m-2 items-center justify-between w-36"
+                            >
                               <label
                                 className="cursor-pointer"
                                 htmlFor={team.name}

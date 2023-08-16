@@ -66,6 +66,7 @@ export default function NewsContainer() {
                         ? "border-gray-800 border-b-4 border-grey-900 font-bold bg-white rounded"
                         : ""
                     }`}
+                    key={sport.id}
                     onClick={chnageFilter}
                   >
                     {sport.name}
@@ -99,8 +100,6 @@ export default function NewsContainer() {
           <h1 className="text-lg mt-1 font-bold">Favourites</h1>
           <div className="flex flex-col my-4">
             <select
-              name=""
-              id=""
               className="px-4 py-3 mb-2 text-gray-900 rounded "
               onChange={(e) => {
                 if (e.target.value === "Favourite Sport") {
@@ -113,12 +112,12 @@ export default function NewsContainer() {
               <option>Favourite Sport</option>
               {!isLoading &&
                 sports.map((sport: Sport) => (
-                  <option value={sport.name}>{sport.name}</option>
+                  <option key={sport.id} value={sport.name}>
+                    {sport.name}
+                  </option>
                 ))}
             </select>
             <select
-              name=""
-              id=""
               className="px-4 py-3 mb-2 text-gray-900 rounded "
               onChange={(e) => {
                 if (e.target.value === "Favourite Team") {
@@ -130,7 +129,9 @@ export default function NewsContainer() {
             >
               <option value={""}>Favourite Team</option>
               {teams.map((team: Team) => (
-                <option value={team.name}>{team.name}</option>
+                <option key={team.id} value={team.name}>
+                  {team.name}
+                </option>
               ))}
             </select>
           </div>

@@ -35,6 +35,12 @@ export default function FevArticles(props: Props) {
     });
   }
 
+  if (news.length === 0) {
+    return (
+      <span className="ml-8">No articles for this selected team and sport</span>
+    );
+  }
+
   return (
     <>
       <div className="overflow-y-auto h-[65%]">

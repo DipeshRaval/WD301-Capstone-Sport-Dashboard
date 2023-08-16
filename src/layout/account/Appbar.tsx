@@ -1,16 +1,13 @@
 import { Fragment, useState, useContext, useEffect } from "react";
-import { Dialog, Disclosure, Menu, Transition } from "@headlessui/react";
+import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { UserCircleIcon } from "@heroicons/react/24/outline";
-import { Cog6ToothIcon, XMarkIcon } from "@heroicons/react/24/solid";
 import Logo from "../../assets/logo.png";
 import { fetchTeams } from "../../context/teams/action";
 import { fetchSport } from "../../context/sport/action";
-import { useSportDispatch, useSportState } from "../../context/sport/context";
-import { Sport } from "../../context/sport/reducer";
-import { Team } from "../../context/teams/reducer";
-import { useTeamDispatch, useTeamState } from "../../context/teams/context";
-import { Link } from "react-router-dom";
+import { useSportDispatch } from "../../context/sport/context";
+import { useTeamDispatch } from "../../context/teams/context";
 import Preferances from "./Preferances";
+import { Link } from "react-router-dom";
 
 const intial = [
   { name: "Profile", href: "#" },
@@ -34,10 +31,7 @@ const Appbar = () => {
         { name: "Sign up", href: "/signup" },
       ]);
     } else {
-      setUserNavigation([
-        { name: "Profile", href: "#" },
-        { name: "Sign out", href: "/logout" },
-      ]);
+      setUserNavigation([{ name: "Sign out", href: "/logout" }]);
     }
     fetchSport(sportDispatch);
     fetchTeams(teamDispatch);
@@ -83,15 +77,15 @@ const Appbar = () => {
                           {userNavigation.map((item: any) => (
                             <Menu.Item key={item.name}>
                               {({ active }) => (
-                                <a
-                                  href={item.href}
+                                <Link
+                                  to={item.href}
                                   className={classNames(
                                     active ? "bg-gray-100" : "",
                                     "block px-4 py-2 text-sm text-gray-700"
                                   )}
                                 >
                                   {item.name}
-                                </a>
+                                </Link>
                               )}
                             </Menu.Item>
                           ))}
