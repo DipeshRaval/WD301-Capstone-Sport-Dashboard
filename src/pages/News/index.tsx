@@ -5,16 +5,11 @@ import { fetchNews } from "../../context/news/action";
 import { useNewsDispatch } from "../../context/news/context";
 import { useSportState } from "../../context/sport/context";
 import { Sport } from "../../context/sport/reducer";
-import FevArticles from "./FevArticles";
-import { useTeamState } from "../../context/teams/context";
-import { Team } from "../../context/teams/reducer";
+import Favourites from "./Favourites";
 
 export default function NewsContainer() {
   const [filter, setFilter] = useState("");
   const [sortBy, setSortBy] = useState("");
-
-  const [fevSport, setFevSport] = useState("");
-  const [fevTeam, setFevTeam] = useState("");
 
   const newsDispatch = useNewsDispatch();
 
@@ -25,15 +20,6 @@ export default function NewsContainer() {
   const chnageFilter = (e: any) => {
     setFilter(e.target.textContent);
   };
-
-  const teamState: any = useTeamState();
-  let { teams } = teamState;
-
-  if (fevSport) {
-    teams = teams.filter((team: Team) => {
-      return team.plays === fevSport;
-    });
-  }
 
   useEffect(() => {
     fetchNews(newsDispatch);
@@ -97,47 +83,7 @@ export default function NewsContainer() {
           </div>
         </div>
         <div className="bg-gray-300 rounded-md mx-2 w-3/12 p-4">
-          <h1 className="text-lg mt-1 font-bold">Favourites</h1>
-          <div className="flex flex-col my-4">
-            <select
-              className="px-4 py-3 mb-2 text-gray-900 rounded "
-              onChange={(e) => {
-                if (e.target.value === "Favourite Sport") {
-                  setFevSport("");
-                } else {
-                  setFevSport(e.target.value);
-                }
-              }}
-            >
-              <option>Favourite Sport</option>
-              {!isLoading &&
-                sports.map((sport: Sport) => (
-                  <option key={sport.id} value={sport.name}>
-                    {sport.name}
-                  </option>
-                ))}
-            </select>
-            <select
-              className="px-4 py-3 mb-2 text-gray-900 rounded "
-              onChange={(e) => {
-                if (e.target.value === "Favourite Team") {
-                  setFevTeam("");
-                } else {
-                  setFevTeam(e.target.value);
-                }
-              }}
-            >
-              <option value={""}>Favourite Team</option>
-              {teams.map((team: Team) => (
-                <option key={team.id} value={team.name}>
-                  {team.name}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {/* FAVOURITE ARTICLES */}
-          <FevArticles fevSport={fevSport} fevTeam={fevTeam} />
+          <Favourites />
         </div>
       </div>
     </div>

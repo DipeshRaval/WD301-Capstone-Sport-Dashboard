@@ -37,6 +37,8 @@ const Appbar = () => {
     fetchTeams(teamDispatch);
   }, []);
 
+  const isLoggedIn = !!localStorage.getItem("userData");
+
   return (
     <>
       <Disclosure as="nav" className="border-b bg-gray-200 border-gray-200">
@@ -52,7 +54,7 @@ const Appbar = () => {
                 </h1>
               </div>
               <div className="flex items-center">
-                <Preferances />
+                {isLoggedIn && <Preferances />}
                 <div className="hidden md:block">
                   <div className="ml-1 flex items-center md:ml-2">
                     <Menu as="div" className="relative ml-1">

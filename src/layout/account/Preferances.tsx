@@ -7,10 +7,21 @@ import { useSportState } from "../../context/sport/context";
 import { Sport } from "../../context/sport/reducer";
 import { Team } from "../../context/teams/reducer";
 import { useTeamState } from "../../context/teams/context";
+import { FetchPreferences, SetPreferences } from "../../pages/Preferances";
+
+export interface UserPreferances {
+  sports: string[];
+  teams: string[];
+}
 
 export default function Preferances() {
   const sportState: any = useSportState();
   const teamState: any = useTeamState();
+
+  const [preferances, setPreferances] = useState<UserPreferances>({
+    sports: [],
+    teams: [],
+  });
 
   const { sports, isLoading } = sportState;
   const { teams } = teamState;
@@ -20,7 +31,26 @@ export default function Preferances() {
   const openModal = () => setIsOpen(true);
 
   // Then we add the closeModal function
-  const closeModal = () => setIsOpen(false);
+  const closeModal = () => {
+    SetPreferences(preferances);
+    setIsOpen(false);
+  };
+
+  const isLoggedIn = !!localStorage.getItem("userData");
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      FetchPreferences()
+        .then((data: { preferences: UserPreferances }) => {
+          console.log("From", data);
+
+          setPreferances(data.preferences);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, []);
 
   return (
     <div>
@@ -87,8 +117,27 @@ export default function Preferances() {
                               </label>
                               <input
                                 id={sport.name}
+                                defaultChecked={preferances.sports.includes(
+                                  sport.name
+                                )}
                                 className="mx-2 h-6 w-4"
                                 type="checkbox"
+                                value={sport.name}
+                                onChange={(e) => {
+                                  let arr = preferances.sports;
+                                  if (e.target.checked) {
+                                    arr.push(e.target.value);
+                                  } else {
+                                    const index = arr.indexOf(e.target.value);
+                                    if (index > -1) {
+                                      arr.splice(index, 1);
+                                    }
+                                  }
+                                  setPreferances({
+                                    ...preferances,
+                                    sports: arr,
+                                  });
+                                }}
                               />
                             </div>
                           ))}
@@ -113,8 +162,29 @@ export default function Preferances() {
                               </label>
                               <input
                                 id={team.name}
+                                defaultChecked={preferances.teams.includes(
+                                  team.name
+                                )}
                                 className="mx-2 h-6 w-4"
                                 type="checkbox"
+                                value={team.name}
+                                onChange={(e) => {
+                                  let updateTeams = preferances.teams;
+                                  if (e.target.checked) {
+                                    updateTeams.push(e.target.value);
+                                  } else {
+                                    const index = updateTeams.indexOf(
+                                      e.target.value
+                                    );
+                                    index > -1
+                                      ? updateTeams.splice(index, 1)
+                                      : "";
+                                  }
+                                  setPreferances({
+                                    ...preferances,
+                                    teams: updateTeams,
+                                  });
+                                }}
                               />
                             </div>
                           ))}
