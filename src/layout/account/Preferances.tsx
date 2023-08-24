@@ -117,7 +117,7 @@ export default function Preferances() {
                               </label>
                               <input
                                 id={sport.name}
-                                defaultChecked={preferances.sports.includes(
+                                defaultChecked={preferances?.sports?.includes(
                                   sport.name
                                 )}
                                 className="mx-2 h-6 w-4"
@@ -162,7 +162,7 @@ export default function Preferances() {
                               </label>
                               <input
                                 id={team.name}
-                                defaultChecked={preferances.teams.includes(
+                                defaultChecked={preferances?.teams?.includes(
                                   team.name
                                 )}
                                 className="mx-2 h-6 w-4"
