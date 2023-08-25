@@ -15,13 +15,13 @@ export default function FevArticles(props: Props) {
 
   let { news } = state;
 
-  if (fevSport) {
+  if (fevSport && fevSport !== "Favourite Sport") {
     news = news.filter((newsItem: any) => {
       return newsItem.sport.name === fevSport;
     });
   }
 
-  if (fevTeam) {
+  if (fevTeam && fevTeam !== "Favourite Team") {
     news = news.filter((newsItem: any) => {
       // if (newsItem?.teams[0]?.name === fevTeam) return newsItem;
       let teams: any = [];
@@ -37,7 +37,9 @@ export default function FevArticles(props: Props) {
 
   if (news.length === 0) {
     return (
-      <span className="ml-8">No articles for this selected team and sport</span>
+      <span className="ml-8 dark:text-gray-300">
+        No articles for this selected team and sport
+      </span>
     );
   }
 
@@ -46,16 +48,19 @@ export default function FevArticles(props: Props) {
       <div className="overflow-y-auto h-[65%]">
         {news.map((newsItem: News) => {
           return (
-            <div key={newsItem.id} className="bg-white rounded-md my-3 p-3">
-              <h1 className="font-bold text-gray-900 text-xl">
+            <div
+              key={newsItem.id}
+              className="bg-white dark:bg-slate-800 rounded-md my-3 p-3"
+            >
+              <h1 className="font-bold text-gray-900 dark:text-white text-xl">
                 {newsItem.title.substring(0, 30)}...
               </h1>
-              <p className="text-gray-800 my-2">
+              <p className="text-gray-800 dark:text-gray-300 my-2">
                 {newsItem.summary.substring(0, 70)} ...
               </p>
               <Link
                 to={`/articles/${newsItem.id}`}
-                className="text-white rounded font-bold tracking-wider text-center p-2 my-3  mx-auto block bg-slate-800"
+                className="text-white dark:bg-gray-300 dark:text-slate-900 rounded font-bold tracking-wider text-center p-2 my-3  mx-auto block bg-slate-800"
               >
                 Read more
               </Link>

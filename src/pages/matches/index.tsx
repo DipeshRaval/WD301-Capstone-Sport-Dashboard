@@ -12,7 +12,9 @@ export default function LiveMatch() {
 
   return (
     <div>
-      <h1 className="text-gray-900 font-bold text-xl">Live Games</h1>
+      <h1 className="text-gray-900 dark:text-white font-bold text-xl">
+        Live Games
+      </h1>
       <div className="overflow-x-auto mt-2 flex items-center w-full">
         <LiveMatchList />
       </div>

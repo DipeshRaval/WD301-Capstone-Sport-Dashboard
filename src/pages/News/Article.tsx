@@ -19,10 +19,10 @@ export default function Article(props: Props) {
     <>
       <Link to={`/articles/${news.id}`}>
         <div className="flex justify-between w-full px-4 my-2">
-          <div className="border rounded-md w-full bg-white flex justify-between items-center">
+          <div className="border rounded-md w-full dark:bg-gray-800 bg-white flex justify-between items-center">
             <div className="px-4">
-              <p className="text-gray-700">{news.sport.name}</p>
-              <h2 className="my-1 text-gray-800 text-2xl font-bold">
+              <p className="text-gray-700 dark:text-white">{news.sport.name}</p>
+              <h2 className="my-1 dark:text-white text-gray-800 text-2xl font-bold">
                 {news.title}
               </h2>
               <div className="flex">
@@ -39,7 +39,7 @@ export default function Article(props: Props) {
                     .join(" Vs ")}
                 </span>
               </div>
-              <p className="text-gray-900">
+              <p className="text-gray-900 dark:text-gray-100">
                 {news.summary.substring(0, 200)}...
               </p>
               <div className="flex justify-between my-1">

@@ -1,8 +1,6 @@
 import { Fragment, useState, useContext, useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-
 import { Cog6ToothIcon, XMarkIcon } from "@heroicons/react/24/solid";
-
 import { useSportState } from "../../context/sport/context";
 import { Sport } from "../../context/sport/reducer";
 import { Team } from "../../context/teams/reducer";
@@ -10,8 +8,8 @@ import { useTeamState } from "../../context/teams/context";
 import { FetchPreferences, SetPreferences } from "../../pages/Preferances";
 
 export interface UserPreferances {
-  sports: string[];
-  teams: string[];
+  SelectedSport: string[];
+  SelectedTeams: string[];
 }
 
 export default function Preferances() {
@@ -19,18 +17,16 @@ export default function Preferances() {
   const teamState: any = useTeamState();
 
   const [preferances, setPreferances] = useState<UserPreferances>({
-    sports: [],
-    teams: [],
+    SelectedSport: [],
+    SelectedTeams: [],
   });
 
   const { sports, isLoading } = sportState;
   const { teams } = teamState;
   let [isOpen, setIsOpen] = useState(false);
 
-  // Then we add the openModal function.
   const openModal = () => setIsOpen(true);
 
-  // Then we add the closeModal function
   const closeModal = () => {
     SetPreferences(preferances);
     setIsOpen(false);
@@ -42,8 +38,6 @@ export default function Preferances() {
     if (isLoggedIn) {
       FetchPreferences()
         .then((data: { preferences: UserPreferances }) => {
-          console.log("From", data);
-
           setPreferances(data.preferences);
         })
         .catch((err) => {
@@ -55,7 +49,7 @@ export default function Preferances() {
   return (
     <div>
       <Cog6ToothIcon
-        className="h-6 w-6"
+        className="h-8 w-6"
         onClick={openModal}
         aria-hidden="true"
       />
@@ -117,14 +111,14 @@ export default function Preferances() {
                               </label>
                               <input
                                 id={sport.name}
-                                defaultChecked={preferances?.sports?.includes(
+                                defaultChecked={preferances?.SelectedSport?.includes(
                                   sport.name
                                 )}
                                 className="mx-2 h-6 w-4"
                                 type="checkbox"
                                 value={sport.name}
                                 onChange={(e) => {
-                                  let arr = preferances.sports;
+                                  let arr = preferances.SelectedSport;
                                   if (e.target.checked) {
                                     arr.push(e.target.value);
                                   } else {
@@ -135,7 +129,7 @@ export default function Preferances() {
                                   }
                                   setPreferances({
                                     ...preferances,
-                                    sports: arr,
+                                    SelectedSport: arr,
                                   });
                                 }}
                               />
@@ -162,14 +156,14 @@ export default function Preferances() {
                               </label>
                               <input
                                 id={team.name}
-                                defaultChecked={preferances?.teams?.includes(
+                                defaultChecked={preferances?.SelectedTeams?.includes(
                                   team.name
                                 )}
                                 className="mx-2 h-6 w-4"
                                 type="checkbox"
                                 value={team.name}
                                 onChange={(e) => {
-                                  let updateTeams = preferances.teams;
+                                  let updateTeams = preferances.SelectedTeams;
                                   if (e.target.checked) {
                                     updateTeams.push(e.target.value);
                                   } else {
@@ -182,7 +176,7 @@ export default function Preferances() {
                                   }
                                   setPreferances({
                                     ...preferances,
-                                    teams: updateTeams,
+                                    SelectedTeams: updateTeams,
                                   });
                                 }}
                               />

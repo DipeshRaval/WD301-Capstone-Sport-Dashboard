@@ -20,12 +20,12 @@ export default function ArticleList(props: Props) {
     });
   }
 
-  if (props.sortBy) {
-    if (props.sortBy === "date") {
+  if (props.sortBy && props.sortBy !== "Sort By: ") {
+    if (props.sortBy === "Date") {
       news = news.sort((a: News, b: News) => {
         return new Date(b.date).getTime() - new Date(a.date).getTime();
       });
-    } else if (props.sortBy === "name") {
+    } else if (props.sortBy === "Title") {
       news = news.sort((a: News, b: News) => {
         if (a.title < b.title) {
           return -1;
@@ -35,7 +35,7 @@ export default function ArticleList(props: Props) {
         }
         return 0;
       });
-    } else if (props.sortBy === "sports") {
+    } else if (props.sortBy === "Sport Type") {
       news = news.sort((a: News, b: News) => {
         if (a.sport.name < b.sport.name) {
           return -1;
@@ -53,7 +53,11 @@ export default function ArticleList(props: Props) {
   }
 
   if (news.length === 0) {
-    return <span className="ml-8">No articles for this sport </span>;
+    return (
+      <span className="ml-8 dark:text-white dark:bg-gray-700">
+        No articles for this sport{" "}
+      </span>
+    );
   }
 
   if (isError) {
@@ -61,7 +65,7 @@ export default function ArticleList(props: Props) {
   }
 
   return (
-    <div className="overflow-y-auto h-[50vh] relative bottom-0">
+    <div className="overflow-y-auto dark:bg-gray-700 h-[50vh] relative bottom-0">
       {!isLoading &&
         news.map((newsItem: News) => {
           return <Article key={newsItem.id} news={newsItem} />;

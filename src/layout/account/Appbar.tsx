@@ -1,6 +1,6 @@
 import { Fragment, useState, useContext, useEffect } from "react";
-import { Disclosure, Menu, Transition } from "@headlessui/react";
-import { UserCircleIcon } from "@heroicons/react/24/outline";
+import { Disclosure, Menu, Transition, Switch } from "@headlessui/react";
+import { UserCircleIcon, MoonIcon, SunIcon } from "@heroicons/react/24/outline";
 import Logo from "../../assets/logo.png";
 import { fetchTeams } from "../../context/teams/action";
 import { fetchSport } from "../../context/sport/action";
@@ -8,6 +8,7 @@ import { useSportDispatch } from "../../context/sport/context";
 import { useTeamDispatch } from "../../context/teams/context";
 import Preferances from "./Preferances";
 import { Link } from "react-router-dom";
+import { ThemeContext } from "../../context/theme";
 
 const intial = [
   { name: "Profile", href: "#" },
@@ -23,6 +24,21 @@ const Appbar = () => {
   const sportDispatch = useSportDispatch();
   const teamDispatch = useTeamDispatch();
 
+  const { theme, setTheme } = useContext(ThemeContext);
+  const [enabled, setEnabled] = useState(theme === "dark");
+
+  const toggleTheme = () => {
+    let newTheme = "";
+    if (theme === "light") {
+      newTheme = "dark";
+    } else {
+      newTheme = "light";
+    }
+    setEnabled(!enabled);
+    setTheme(newTheme);
+    console.log(theme);
+  };
+
   useEffect(() => {
     const isAuth = !!localStorage.getItem("authToken");
     if (!isAuth) {
@@ -31,7 +47,10 @@ const Appbar = () => {
         { name: "Sign up", href: "/signup" },
       ]);
     } else {
-      setUserNavigation([{ name: "Sign out", href: "/logout" }]);
+      setUserNavigation([
+        { name: "Sign out", href: "/logout" },
+        { name: "Change Password", href: "/chnage_password" },
+      ]);
     }
     fetchSport(sportDispatch);
     fetchTeams(teamDispatch);
@@ -41,19 +60,33 @@ const Appbar = () => {
 
   return (
     <>
-      <Disclosure as="nav" className="border-b bg-gray-200 border-gray-200">
+      <Disclosure
+        as="nav"
+        className="border-b bg-gray-200 border-gray-200 dark:bg-gray-800"
+      >
         {({ open }) => (
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="flex h-16 items-center justify-between">
               <div className="flex items-center">
-                <img className="h-20 w-24" src={Logo} alt="Smarter Tasks" />
+                <img
+                  className="h-20 w-24 dark:invert"
+                  src={Logo}
+                  alt="Smarter Tasks"
+                />
               </div>
               <div>
-                <h1 className="text-center font-bold text-2xl text-gray-800">
+                <h1 className="text-center font-bold text-2xl text-gray-800 dark:text-white">
                   Sports Center
                 </h1>
               </div>
               <div className="flex items-center">
+                <div onClick={toggleTheme} className="mr-3">
+                  {theme === "light" ? (
+                    <SunIcon className="h-8 w-8" />
+                  ) : (
+                    <MoonIcon className="h-6 w-6" />
+                  )}
+                </div>
                 {isLoggedIn && <Preferances />}
                 <div className="hidden md:block">
                   <div className="ml-1 flex items-center md:ml-2">

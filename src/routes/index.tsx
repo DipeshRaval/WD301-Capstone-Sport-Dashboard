@@ -6,24 +6,9 @@ import Logout from "../pages/logout";
 import LiveMatch from "../pages/matches";
 import NewsDetails from "../pages/News/NewsDetails";
 import NewsContainer from "../pages/News";
-import Preferances from "../layout/account/Preferances";
+import ChnagePassword from "../pages/chnagePassword";
 
 const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <AccountLayout />,
-    children: [
-      { index: true, element: [<LiveMatch />, <NewsContainer />] },
-      {
-        path: "/articles/:articleID",
-        element: <NewsDetails />,
-      },
-      {
-        path: "/preferances",
-        element: <Preferances />,
-      },
-    ],
-  },
   {
     path: "/signin",
     element: <Signin />,
@@ -35,6 +20,29 @@ const router = createBrowserRouter([
   {
     path: "/logout",
     element: <Logout />,
+  },
+  {
+    path: "/chnage_password",
+    element: <ChnagePassword />,
+  },
+  {
+    path: "/",
+    element: <AccountLayout />,
+    children: [
+      {
+        index: true,
+        element: (
+          <>
+            <LiveMatch />
+            <NewsContainer />
+          </>
+        ),
+      },
+      {
+        path: "/articles/:articleID",
+        element: <NewsDetails />,
+      },
+    ],
   },
 ]);
 
