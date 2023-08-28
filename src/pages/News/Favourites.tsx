@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import FevArticles from "./FevArticles";
 import { useTeamState } from "../../context/teams/context";
 import { Team } from "../../context/teams/reducer";
@@ -7,6 +7,8 @@ import { Sport } from "../../context/sport/reducer";
 import { Fragment } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
+import { fetchNews } from "../../context/news/action";
+import { useNewsDispatch } from "../../context/news/context";
 
 export default function Favourites() {
   const [fevSport, setFevSport] = useState("Favourite Sport");
@@ -24,6 +26,12 @@ export default function Favourites() {
       return team.plays === fevSport;
     });
   }
+
+  const newsDispatch = useNewsDispatch();
+
+  useEffect(() => {
+    fetchNews(newsDispatch);
+  }, []);
 
   return (
     <>
@@ -47,7 +55,7 @@ export default function Favourites() {
                 leaveFrom="opacity-100"
                 leaveTo="opacity-0"
               >
-                <Listbox.Options className="z-1 absolute mt-1 max-h-60 w-full overflow-auto rounded-md dark:bg-slate-600 bg-white py-1 text-xl shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                <Listbox.Options className="z-20 absolute mt-1 max-h-60 w-full overflow-auto rounded-md dark:bg-slate-600 bg-white py-1 text-xl shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                   {sports.map((sport: Sport) => (
                     <Listbox.Option
                       key={sport.id}

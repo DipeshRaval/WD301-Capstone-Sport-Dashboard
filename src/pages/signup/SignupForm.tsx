@@ -93,9 +93,12 @@ const SignupForm: React.FC = () => {
       >
         Sign up
       </button>
-      <p className="mt-2">
-        Are you existing User ?{" "}
-        <Link className="font-bold text-blue-800 underline ml-1" to="/signin">
+      <p className="mt-2 ">
+        <span className="text-gray-900 dark:text-gary-900">
+          {" "}
+          Are you existing User ?{" "}
+        </span>
+        <Link className="font-bold  text-blue-800 underline ml-1" to="/signin">
           Login Here
         </Link>
       </p>

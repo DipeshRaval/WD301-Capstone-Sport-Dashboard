@@ -20,6 +20,8 @@ export const FetchPreferences = async () => {
 };
 
 export const SetPreferences = async (preferences : UserPreferances) => {
+  console.log(preferences);
+
   const token: string | null = localStorage.getItem("authToken");
   const response = await fetch(`${API_ENDPOINT}/user/preferences`, {
       method: "PATCH",

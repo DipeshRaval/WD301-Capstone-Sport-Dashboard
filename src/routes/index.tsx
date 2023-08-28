@@ -1,4 +1,5 @@
 import { Outlet, createBrowserRouter } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import Signin from "../pages/signin";
 import AccountLayout from "../layout/account";
 import Signup from "../pages/signup";
@@ -7,8 +8,13 @@ import LiveMatch from "../pages/matches";
 import NewsDetails from "../pages/News/NewsDetails";
 import NewsContainer from "../pages/News";
 import ChnagePassword from "../pages/chnagePassword";
+import Preferances from "../layout/account/Preferances";
 
 const router = createBrowserRouter([
+  // {
+  //   path: "/",
+  //   element: <Navigate to="/dashboard" replace />,
+  // },
   {
     path: "/signin",
     element: <Signin />,
@@ -26,21 +32,36 @@ const router = createBrowserRouter([
     element: <ChnagePassword />,
   },
   {
-    path: "/",
+    path: "/abc",
     element: <AccountLayout />,
     children: [
       {
         index: true,
-        element: (
-          <>
-            <LiveMatch />
-            <NewsContainer />
-          </>
-        ),
+        element: <Navigate to="/dashboard" replace />,
       },
       {
-        path: "/articles/:articleID",
-        element: <NewsDetails />,
+        path: "dashboard",
+        element: <Outlet />,
+        children: [
+          {
+            index: true,
+            element: (
+              <>
+                <LiveMatch />
+                <NewsContainer />
+              </>
+            ),
+          },
+          {
+            path: "articles/:articleID",
+            element: <Outlet />,
+            children: [{ index: true, element: <NewsDetails /> }],
+          },
+          {
+            path: "preferances",
+            element: <Preferances />,
+          },
+        ],
       },
     ],
   },

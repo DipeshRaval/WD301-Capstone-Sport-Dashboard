@@ -17,7 +17,7 @@ export default function Article(props: Props) {
 
   return (
     <>
-      <Link to={`/articles/${news.id}`}>
+      <Link to={`/abc/dashboard/articles/${news.id}`}>
         <div className="flex justify-between w-full px-4 my-2">
           <div className="border rounded-md w-full dark:bg-gray-800 bg-white flex justify-between items-center">
             <div className="px-4">

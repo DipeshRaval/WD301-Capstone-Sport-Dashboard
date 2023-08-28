@@ -23,7 +23,6 @@ export default function FevArticles(props: Props) {
 
   if (fevTeam && fevTeam !== "Favourite Team") {
     news = news.filter((newsItem: any) => {
-      // if (newsItem?.teams[0]?.name === fevTeam) return newsItem;
       let teams: any = [];
       newsItem.teams?.forEach((team: any) => {
         teams.push(team.name);

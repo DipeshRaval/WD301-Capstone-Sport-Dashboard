@@ -81,7 +81,7 @@ const Appbar = () => {
               </div>
               <div className="flex items-center">
                 <div onClick={toggleTheme} className="mr-3">
-                  {theme === "light" ? (
+                  {theme === "dark" ? (
                     <SunIcon className="h-8 w-8" />
                   ) : (
                     <MoonIcon className="h-6 w-6" />

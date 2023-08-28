@@ -13,6 +13,8 @@ export default function NewsContainer() {
   const [filter, setFilter] = useState("");
   const [sortBy, setSortBy] = useState("Sort By: ");
 
+  const [changeSortBy, setChangeSortBy] = useState("");
+
   const newsDispatch = useNewsDispatch();
 
   const state: any = useSportState();
@@ -127,13 +129,18 @@ export default function NewsContainer() {
                   </Transition>
                 </div>
               </Listbox>
-              <div className="bg-gray-200 dark:bg-slate-600 dark:text-white rounded mx-2 p-3 text-gray-600">
+              <div
+                onClick={() => {
+                  setChangeSortBy(sortBy);
+                }}
+                className="bg-gray-200  dark:bg-slate-600 dark:text-white rounded mx-2 p-3 text-gray-600"
+              >
                 <FunnelIcon className="h-4 w-4" />
               </div>
             </div>
           </div>
           <div className="bg-gray-100 dark:bg-gray-700">
-            <ArticleList sortBy={sortBy} filter={filter} />
+            <ArticleList sortBy={changeSortBy} filter={filter} />
           </div>
         </div>
         <div className="bg-gray-300 dark:bg-gray-700 rounded-md mx-2 w-3/12 p-4">
