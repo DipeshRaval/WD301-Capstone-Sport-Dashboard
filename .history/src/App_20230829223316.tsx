@@ -7,8 +7,8 @@ import { NewsProvider } from "./context/news/context";
 import { SportProvider } from ".//context/sport/context";
 import { TeamProvider } from "./context/teams/context";
 import { ThemeContext } from "./context/theme";
-import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from "react-toastify";
 
 function App() {
   const { theme } = useContext(ThemeContext);

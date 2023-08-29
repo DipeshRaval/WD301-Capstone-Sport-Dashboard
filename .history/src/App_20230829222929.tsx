@@ -12,9 +12,12 @@ import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   const { theme } = useContext(ThemeContext);
+
+  console.log(theme);
+
   return (
     <div
-      className={`w-full mx-auto ${theme === "dark" ? "dark" : ""}`}
+      className={`h-screen w-full mx-auto ${theme === "dark" ? "dark" : ""}`}
     >
       <MatchesProvider>
         <NewsProvider>

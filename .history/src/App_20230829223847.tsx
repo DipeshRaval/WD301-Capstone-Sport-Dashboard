@@ -25,7 +25,7 @@ function App() {
           </SportProvider>
         </NewsProvider>
       </MatchesProvider>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
 
     </div>
   );

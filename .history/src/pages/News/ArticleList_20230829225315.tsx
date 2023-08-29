@@ -48,14 +48,14 @@ export default function ArticleList(props: Props) {
     }
   }
   
-  
-  if (news.length === 0 && isLoading) {
-    return <span>Loading...</span>;
-  }
   if (isError) {
     return <span>{errorMessage}</span>;
   }
   
+  if (news.length === 0 && isLoading) {
+    return <span>Loading...</span>;
+  }
+
   if (news.length === 0) {
     return (
       <span className="ml-8 dark:text-white dark:bg-gray-700">

@@ -57,6 +57,8 @@ const Appbar = () => {
     fetchTeams(teamDispatch);
   }, []);
 
+  // const isLoggedIn = !!localStorage.getItem("userData");
+
   return (
     <>
       <Disclosure

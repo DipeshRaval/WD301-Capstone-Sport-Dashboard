@@ -41,7 +41,7 @@ export default function NewsContainer() {
       <h1 className="text-xl font-bold text-gray-900 dark:text-white my-2">
         Treading News
       </h1>
-      <div className="flex h-[65vh] w-full">
+      <div className="flex h-[60vh] w-full">
         <div className="w-9/12 rounded-md bg-gray-100 dark:bg-gray-700">
           <div className="flex justify-between">
             <div className="flex items-center text-gray-800 p-3 overflow-x-auto ">

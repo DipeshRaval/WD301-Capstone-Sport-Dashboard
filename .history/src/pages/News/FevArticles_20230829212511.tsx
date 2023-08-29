@@ -12,7 +12,7 @@ export default function FevArticles(props: Props) {
   const { fevSport, fevTeam } = props;
 
   const state: any = useNewsState();
-  const { isLoading, isError, errorMessage } = state;
+
   let { news } = state;
 
   if (fevSport && fevSport !== "Favourite Sport") {
@@ -34,16 +34,6 @@ export default function FevArticles(props: Props) {
     });
   }
 
-  if(isLoading)
-  {
-    return <span>Loading....</span>;
-  }
-
-  
-  if (isError) {
-    return <span>{errorMessage}</span>;
-  }
-
   if (news.length === 0) {
     return (
       <span className="ml-8 dark:text-gray-300">
@@ -54,7 +44,7 @@ export default function FevArticles(props: Props) {
 
   return (
     <>
-      <div className="overflow-y-auto h-[35vh]">
+      <div className="overflow-y-auto h-[65%]">
         {news.map((newsItem: News) => {
           return (
             <div

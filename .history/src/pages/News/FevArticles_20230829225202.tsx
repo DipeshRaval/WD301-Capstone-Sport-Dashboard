@@ -54,7 +54,7 @@ export default function FevArticles(props: Props) {
 
   return (
     <>
-      <div className="overflow-y-auto h-[35vh]">
+      <div className="overflow-y-auto h-[65%]">
         {news.map((newsItem: News) => {
           return (
             <div

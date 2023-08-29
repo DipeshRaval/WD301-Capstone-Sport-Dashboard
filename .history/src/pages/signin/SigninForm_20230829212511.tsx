@@ -2,7 +2,6 @@ import React from "react";
 import { API_ENDPOINT } from "../../config/constants";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { toast } from "react-toastify";
 
 type Inputs = {
   email: string;
@@ -42,28 +41,8 @@ const SigninForm: React.FC = () => {
 
       // Redirect users to account path after login
       navigate("/");
-      toast.success(`Welcome back ${data.user.name}`, {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-        });
     } catch (error) {
       console.error("Sign-in failed:", error);
-      toast.error(`Something went Wrong`, {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
     }
   };
 
