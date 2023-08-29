@@ -28,30 +28,31 @@ const router = createBrowserRouter([
     element: <ChnagePassword />,
   },
   {
-    path: "/",
-    element: <AccountLayout />,
-    children: [
+    path : "/",
+    element : <AccountLayout />,
+    children : [
       {
-        path: "",
-        element: (
-          <>
-            <LiveMatch />
-            <NewsContainer />
-          </>
-        ),
-        children: [
+        path : "",
+        element : <>
+          <LiveMatch />
+          <NewsContainer />
+        </>,
+        children : [
           {
-            path: "/articles/:articleID",
-            element: <NewsDetails />,
-          },
-          {
-            path: "/preferances",
-            element: <Preferances />,
-          },
-        ],
-      },
-    ],
-  },
+            {
+              path: "/articles/:articleID",
+              element: <NewsDetails />,
+            },
+            {
+              path : "/preferances",
+              element : <Preferances />
+            }
+          }
+        ]
+      }
+    ]
+
+  }
 ]);
 
 export default router;

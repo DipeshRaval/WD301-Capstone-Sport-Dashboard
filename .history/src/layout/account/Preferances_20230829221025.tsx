@@ -42,8 +42,9 @@ export default function Preferances() {
     if (isLoggedIn) {
       FetchPreferences()
         .then((data: { preferences: UserPreferances }) => {
-          if(Object.keys(data.preferences).length !== 0)
+          if(Object.keys(data.preferences).length)
           {
+            console.log("hh");
             setPreferances(data.preferences);
           }
         })
@@ -161,12 +162,12 @@ export default function Preferances() {
                               </label>
                               <input
                                 id={team.name}
-                                className="mx-2 h-6 w-4"
-                                type="checkbox"
-                                value={team.name}
                                 defaultChecked={preferances?.SelectedTeams?.includes(
                                   team.name
                                 )}
+                                className="mx-2 h-6 w-4"
+                                type="checkbox"
+                                value={team.name}
                                 onChange={(e) => {
                                   let updateTeams = preferances.SelectedTeams;
                                   if (e.target.checked) {

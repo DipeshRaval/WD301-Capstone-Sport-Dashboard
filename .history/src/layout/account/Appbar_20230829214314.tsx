@@ -1,21 +1,18 @@
 import { Fragment, useState, useContext, useEffect } from "react";
 import { Disclosure, Menu, Transition, Switch } from "@headlessui/react";
-import {
-  UserCircleIcon,
-  MoonIcon,
-  SunIcon
-} from "@heroicons/react/24/outline";
+import { UserCircleIcon, MoonIcon, SunIcon } from "@heroicons/react/24/outline";
 import Logo from "../../assets/logo.png";
 import { fetchTeams } from "../../context/teams/action";
 import { fetchSport } from "../../context/sport/action";
 import { useSportDispatch } from "../../context/sport/context";
 import { useTeamDispatch } from "../../context/teams/context";
+import Preferances from "./Preferances";
 import { Link } from "react-router-dom";
 import { ThemeContext } from "../../context/theme";
-import { Cog6ToothIcon } from "@heroicons/react/24/solid";
 
-
-const intial = [{ name: "Sign out", href: "/logout" }];
+const intial = [
+  { name: "Sign out", href: "/logout" },
+];
 
 const classNames = (...classes: string[]): string =>
   classes.filter(Boolean).join(" ");
@@ -89,11 +86,7 @@ const Appbar = () => {
                     <MoonIcon className="h-6 w-6" />
                   )}
                 </div>
-                {isAuth && (
-                  <Link to={"/preferances"}>
-                    <Cog6ToothIcon className="h-8 w-6" aria-hidden="true" />
-                  </Link>
-                )}
+                {isLoggedIn && <Preferances />}
                 <div className="hidden md:block">
                   <div className="ml-1 flex items-center md:ml-2">
                     <Menu as="div" className="relative ml-1">

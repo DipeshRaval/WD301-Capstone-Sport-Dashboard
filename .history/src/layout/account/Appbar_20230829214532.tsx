@@ -3,7 +3,8 @@ import { Disclosure, Menu, Transition, Switch } from "@headlessui/react";
 import {
   UserCircleIcon,
   MoonIcon,
-  SunIcon
+  SunIcon,
+  Cog6ToothIcon,
 } from "@heroicons/react/24/outline";
 import Logo from "../../assets/logo.png";
 import { fetchTeams } from "../../context/teams/action";
@@ -12,9 +13,9 @@ import { useSportDispatch } from "../../context/sport/context";
 import { useTeamDispatch } from "../../context/teams/context";
 import { Link } from "react-router-dom";
 import { ThemeContext } from "../../context/theme";
-import { Cog6ToothIcon } from "@heroicons/react/24/solid";
-
-
+import {
+  Cog6ToothIcon,
+} from "@heroicons/react/24/solid";
 const intial = [{ name: "Sign out", href: "/logout" }];
 
 const classNames = (...classes: string[]): string =>

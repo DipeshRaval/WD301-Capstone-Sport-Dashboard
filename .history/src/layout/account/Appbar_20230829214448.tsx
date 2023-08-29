@@ -3,17 +3,17 @@ import { Disclosure, Menu, Transition, Switch } from "@headlessui/react";
 import {
   UserCircleIcon,
   MoonIcon,
-  SunIcon
+  SunIcon,
+  Cog6ToothIcon,
 } from "@heroicons/react/24/outline";
 import Logo from "../../assets/logo.png";
 import { fetchTeams } from "../../context/teams/action";
 import { fetchSport } from "../../context/sport/action";
 import { useSportDispatch } from "../../context/sport/context";
 import { useTeamDispatch } from "../../context/teams/context";
+import Preferances from "./Preferances";
 import { Link } from "react-router-dom";
 import { ThemeContext } from "../../context/theme";
-import { Cog6ToothIcon } from "@heroicons/react/24/solid";
-
 
 const intial = [{ name: "Sign out", href: "/logout" }];
 

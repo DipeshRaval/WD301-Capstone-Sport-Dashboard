@@ -30,27 +30,30 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <AccountLayout />,
-    children: [
-      {
-        path: "",
-        element: (
-          <>
-            <LiveMatch />
-            <NewsContainer />
-          </>
-        ),
+
         children: [
           {
-            path: "/articles/:articleID",
-            element: <NewsDetails />,
-          },
-          {
-            path: "/preferances",
-            element: <Preferances />,
-          },
+            path: "",
+            element: (
+              <>
+                <LiveMatch />
+                <NewsContainer />
+              </>
+            ),
+            children : [
+              {
+                path: "/articles/:articleID",
+                element: <NewsDetails />,
+              },
+              {
+                path : "/preferances",
+                element : <Preferances />
+              }
+            ]
+          }
         ],
       },
-    ],
+    
   },
 ]);
 

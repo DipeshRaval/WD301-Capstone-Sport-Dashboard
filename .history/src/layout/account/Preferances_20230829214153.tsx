@@ -6,7 +6,6 @@ import { Sport } from "../../context/sport/reducer";
 import { Team } from "../../context/teams/reducer";
 import { useTeamState } from "../../context/teams/context";
 import { FetchPreferences, SetPreferences } from "../../pages/Preferances";
-import { useNavigate } from "react-router-dom";
 
 export interface UserPreferances {
   SelectedSport: string[];
@@ -16,7 +15,6 @@ export interface UserPreferances {
 export default function Preferances() {
   const sportState: any = useSportState();
   const teamState: any = useTeamState();
-  let navigate = useNavigate();
 
   const [preferances, setPreferances] = useState<UserPreferances>({
     SelectedSport: [],
@@ -25,8 +23,7 @@ export default function Preferances() {
 
   const { sports, isLoading } = sportState;
   const { teams } = teamState;
-
-  let [isOpen, setIsOpen] = useState(true);
+  let [isOpen, setIsOpen] = useState(false);
 
   const openModal = () => setIsOpen(true);
 
@@ -42,10 +39,7 @@ export default function Preferances() {
     if (isLoggedIn) {
       FetchPreferences()
         .then((data: { preferences: UserPreferances }) => {
-          if(Object.keys(data.preferences).length !== 0)
-          {
-            setPreferances(data.preferences);
-          }
+          setPreferances(data.preferences);
         })
         .catch((err) => {
           console.log(err);
@@ -53,11 +47,13 @@ export default function Preferances() {
     }
   }, []);
 
-  console.log(preferances);
-  
-
   return (
     <div>
+      <Cog6ToothIcon
+        className="h-8 w-6"
+        onClick={openModal}
+        aria-hidden="true"
+      />
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog as="div" className="relative z-10" onClose={closeModal}>
           <Transition.Child
@@ -161,12 +157,12 @@ export default function Preferances() {
                               </label>
                               <input
                                 id={team.name}
-                                className="mx-2 h-6 w-4"
-                                type="checkbox"
-                                value={team.name}
                                 defaultChecked={preferances?.SelectedTeams?.includes(
                                   team.name
                                 )}
+                                className="mx-2 h-6 w-4"
+                                type="checkbox"
+                                value={team.name}
                                 onChange={(e) => {
                                   let updateTeams = preferances.SelectedTeams;
                                   if (e.target.checked) {

@@ -3,7 +3,8 @@ import { Disclosure, Menu, Transition, Switch } from "@headlessui/react";
 import {
   UserCircleIcon,
   MoonIcon,
-  SunIcon
+  SunIcon,
+  Cog6ToothIcon,
 } from "@heroicons/react/24/outline";
 import Logo from "../../assets/logo.png";
 import { fetchTeams } from "../../context/teams/action";

@@ -44,6 +44,7 @@ export default function Preferances() {
         .then((data: { preferences: UserPreferances }) => {
           if(Object.keys(data.preferences).length !== 0)
           {
+            console.log("hh");
             setPreferances(data.preferences);
           }
         })

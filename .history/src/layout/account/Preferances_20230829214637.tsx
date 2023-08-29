@@ -25,7 +25,6 @@ export default function Preferances() {
 
   const { sports, isLoading } = sportState;
   const { teams } = teamState;
-
   let [isOpen, setIsOpen] = useState(true);
 
   const openModal = () => setIsOpen(true);
@@ -42,10 +41,7 @@ export default function Preferances() {
     if (isLoggedIn) {
       FetchPreferences()
         .then((data: { preferences: UserPreferances }) => {
-          if(Object.keys(data.preferences).length !== 0)
-          {
-            setPreferances(data.preferences);
-          }
+          setPreferances(data.preferences);
         })
         .catch((err) => {
           console.log(err);
@@ -53,11 +49,13 @@ export default function Preferances() {
     }
   }, []);
 
-  console.log(preferances);
-  
-
   return (
     <div>
+      <Cog6ToothIcon
+        className="h-8 w-6"
+        onClick={openModal}
+        aria-hidden="true"
+      />
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog as="div" className="relative z-10" onClose={closeModal}>
           <Transition.Child
@@ -161,12 +159,12 @@ export default function Preferances() {
                               </label>
                               <input
                                 id={team.name}
-                                className="mx-2 h-6 w-4"
-                                type="checkbox"
-                                value={team.name}
                                 defaultChecked={preferances?.SelectedTeams?.includes(
                                   team.name
                                 )}
+                                className="mx-2 h-6 w-4"
+                                type="checkbox"
+                                value={team.name}
                                 onChange={(e) => {
                                   let updateTeams = preferances.SelectedTeams;
                                   if (e.target.checked) {

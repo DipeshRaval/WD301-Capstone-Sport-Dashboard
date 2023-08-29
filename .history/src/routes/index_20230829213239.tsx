@@ -33,21 +33,27 @@ const router = createBrowserRouter([
     children: [
       {
         path: "",
-        element: (
-          <>
-            <LiveMatch />
-            <NewsContainer />
-          </>
-        ),
+        element: <Outlet />,
         children: [
           {
-            path: "/articles/:articleID",
-            element: <NewsDetails />,
-          },
-          {
-            path: "/preferances",
-            element: <Preferances />,
-          },
+            path: "",
+            element: (
+              <>
+                <LiveMatch />
+                <NewsContainer />
+              </>
+            ),
+            children : [
+              {
+                path: "/articles/:articleID",
+                element: <NewsDetails />,
+              },
+              {
+                path : "/preferances",
+                element : <Preferances />
+              }
+            ]
+          }
         ],
       },
     ],

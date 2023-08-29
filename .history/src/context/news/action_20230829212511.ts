@@ -11,6 +11,6 @@ export const fetchNews = async (dispatch: any) => {
     dispatch({ type: "FETCH_NEWS_SUCCESS", payload: data });
   } catch (error) {
     console.log('Error fetching matches:', error);
-    dispatch({ type: "FETCH_NEWS_FAILURE", payload: 'Unable to load news articles' });
+    dispatch({ type: "FETCH_NEWS_FAILURE", payload: 'Unable to load news' });
   }
 };
