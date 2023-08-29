@@ -9,7 +9,10 @@ interface Props {
 
 export default function ArticleList(props: Props) {
   const state: any = useNewsState();
+
+  console.log("Hello");
   
+
   const { isLoading, isError, errorMessage } = state;
   let { news } = state;
 

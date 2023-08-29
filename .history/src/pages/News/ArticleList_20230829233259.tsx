@@ -4,12 +4,12 @@ import { Link } from "react-router-dom";
 
 interface Props {
   filter: string;
-  sortType: string;
+  sortBy: string;
 }
 
 export default function ArticleList(props: Props) {
   const state: any = useNewsState();
-  
+
   const { isLoading, isError, errorMessage } = state;
   let { news } = state;
 
@@ -19,12 +19,12 @@ export default function ArticleList(props: Props) {
     });
   }
 
-  if (props.sortType && props.sortType !== "Sort By: ") {
-    if (props.sortType === "Date") {
+  if (props.sortBy && props.sortBy !== "Sort By: ") {
+    if (props.sortBy === "Date") {
       news = news.sort((a: News, b: News) => {
         return new Date(b.date).getTime() - new Date(a.date).getTime();
       });
-    } else if (props.sortType === "Title") {
+    } else if (props.sortBy === "Title") {
       news = news.sort((a: News, b: News) => {
         if (a.title < b.title) {
           return -1;
@@ -34,7 +34,7 @@ export default function ArticleList(props: Props) {
         }
         return 0;
       });
-    } else if (props.sortType === "Sport Type") {
+    } else if (props.sortBy === "Sport Type") {
       news = news.sort((a: News, b: News) => {
         if (a.sport.name < b.sport.name) {
           return -1;
@@ -73,7 +73,7 @@ export default function ArticleList(props: Props) {
       {!isLoading &&
         news.map((newsItem: News) => {
           return (
-            <div key={newsItem.id} className="flex justify-between w-full px-4 my-2">
+            <div className="flex justify-between w-full px-4 my-2">
               <div className="border rounded-md w-full dark:bg-gray-800 bg-white flex justify-between items-center">
                 <div className="px-4">
                   <p className="text-gray-700 dark:text-white">

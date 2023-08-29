@@ -9,6 +9,7 @@ import { useTeamDispatch } from "../../context/teams/context";
 import { fetchTeams } from "../../context/teams/action";
 
 export default function NewsContainer() {
+
   const newsDispatch = useNewsDispatch();
   const sportDispatch = useSportDispatch()
   const teamDispatch = useTeamDispatch()

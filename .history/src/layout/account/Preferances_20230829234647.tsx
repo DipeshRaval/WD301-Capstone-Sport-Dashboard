@@ -164,7 +164,7 @@ export default function Preferances() {
                                 className="mx-2 h-6 w-4"
                                 type="checkbox"
                                 value={team.name}
-                                checked={preferances?.SelectedTeams?.includes(
+                                defaultChecked={preferances?.SelectedTeams?.includes(
                                   team.name
                                 )}
                                 onChange={(e) => {
