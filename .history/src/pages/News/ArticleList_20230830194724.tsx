@@ -4,7 +4,6 @@ import { useNewsState } from "../../context/news/context";
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import { CustomizeContext } from "../../context/customizeState";
-import { FetchPreferences } from '../Preferances';
 
 interface Props {
   filter: string;
@@ -19,11 +18,11 @@ export default function ArticleList(props: Props) {
 
   const [newsState, setNewsState] = useState(news)
 
-  // if (props.filter) {
-  //   news = news.filter((newsItem: any) => {
-  //     return newsItem.sport.name === props.filter;
-  //   });
-  // }
+  if (props.filter) {
+    news = news.filter((newsItem: any) => {
+      return newsItem.sport.name === props.filter;
+    });
+  }
 
   if (props.sortType && props.sortType !== "Sort By: ") {
     if (props.sortType === "Date") {
@@ -61,18 +60,19 @@ export default function ArticleList(props: Props) {
       const data = await FetchPreferences()
       if(Object.keys(data.preferences).length)
       {
-        if (props.filter) {
-          setNewsState(news.filter((newsItem: any) => {
-            return newsItem.sport.name === props.filter;
-          }))
+        data.preferences.SelectedSport.length !== 0 ? setOptionFevSport(data.preferences.SelectedSport) : setOptionFevSport(sports.map((sport:Sport) => sport.name))        
+        if(data.preferences.SelectedTeams.length !== 0){
+          setOptionFevTeam(data.preferences.SelectedTeams)
         }else{
-          if(data.preferences.SelectedSport.length)
-          {
-            setNewsState(news.filter((newsItem: any) => {
-              return data.preferences.SelectedSport.includes(newsItem.sport.name);
-            }))
+          if (fevSport && fevSport !== "Favourite Sport") {
+            let newTeams = teams.filter((team: Team) => {
+              if(team.plays === fevSport)
+                return team.name
+            })
+    
+            setOptionFevTeam(newTeams.map((team:Team) => team.name))
           }else{
-            setNewsState(news)
+            setOptionFevTeam(teams.map((team:Team) => team.name))
           }
         }
       }
@@ -81,15 +81,13 @@ export default function ArticleList(props: Props) {
         setNewsState(news.filter((newsItem: any) => {
           return newsItem.sport.name === props.filter;
         }))
-      }else{
-        setNewsState(news)
       }
     }
   }
 
   useEffect(()=>{
-   settingNewsState()
-  }, [isOpen, isLoading, props])
+   
+  }, [])
 
   const getFormatedDate = (date: string) => {
     const newDate = new Date(date);
@@ -115,7 +113,7 @@ export default function ArticleList(props: Props) {
   return (
     <div className="overflow-y-auto dark:bg-gray-700 h-[70vh] relative bottom-0">
       {!isLoading &&
-        newsState.map((newsItem: News) => {
+        news.map((newsItem: News) => {
           return (
             <div key={newsItem.id} className="flex justify-between w-full px-4 my-2">
               <div className="border rounded-md w-full dark:bg-gray-800 bg-white flex justify-between items-center">

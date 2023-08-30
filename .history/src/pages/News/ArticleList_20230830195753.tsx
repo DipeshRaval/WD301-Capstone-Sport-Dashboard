@@ -66,14 +66,9 @@ export default function ArticleList(props: Props) {
             return newsItem.sport.name === props.filter;
           }))
         }else{
-          if(data.preferences.SelectedSport.length)
-          {
-            setNewsState(news.filter((newsItem: any) => {
-              return data.preferences.SelectedSport.includes(newsItem.sport.name);
-            }))
-          }else{
-            setNewsState(news)
-          }
+          setNewsState(news.filter((newsItem: any) => {
+            return data.preferences.SelectedSport.includes(newsItem.sport.name);
+          }))
         }
       }
     }else{

@@ -19,11 +19,11 @@ export default function ArticleList(props: Props) {
 
   const [newsState, setNewsState] = useState(news)
 
-  // if (props.filter) {
-  //   news = news.filter((newsItem: any) => {
-  //     return newsItem.sport.name === props.filter;
-  //   });
-  // }
+  if (props.filter) {
+    news = news.filter((newsItem: any) => {
+      return newsItem.sport.name === props.filter;
+    });
+  }
 
   if (props.sortType && props.sortType !== "Sort By: ") {
     if (props.sortType === "Date") {
@@ -66,14 +66,9 @@ export default function ArticleList(props: Props) {
             return newsItem.sport.name === props.filter;
           }))
         }else{
-          if(data.preferences.SelectedSport.length)
-          {
-            setNewsState(news.filter((newsItem: any) => {
-              return data.preferences.SelectedSport.includes(newsItem.sport.name);
-            }))
-          }else{
-            setNewsState(news)
-          }
+          setNewsState(news.filter((newsItem: any) => {
+            return data.preferences.SelectedSport.includes(newsItem.sport.name);
+          }))
         }
       }
     }else{
@@ -82,14 +77,16 @@ export default function ArticleList(props: Props) {
           return newsItem.sport.name === props.filter;
         }))
       }else{
-        setNewsState(news)
+        setNewsState(news.filter((newsItem: any) => {
+          return data.preferences.SelectedSport.includes(newsItem.sport.name);
+        }))
       }
     }
   }
 
   useEffect(()=>{
-   settingNewsState()
-  }, [isOpen, isLoading, props])
+   
+  }, [])
 
   const getFormatedDate = (date: string) => {
     const newDate = new Date(date);
@@ -115,7 +112,7 @@ export default function ArticleList(props: Props) {
   return (
     <div className="overflow-y-auto dark:bg-gray-700 h-[70vh] relative bottom-0">
       {!isLoading &&
-        newsState.map((newsItem: News) => {
+        news.map((newsItem: News) => {
           return (
             <div key={newsItem.id} className="flex justify-between w-full px-4 my-2">
               <div className="border rounded-md w-full dark:bg-gray-800 bg-white flex justify-between items-center">
