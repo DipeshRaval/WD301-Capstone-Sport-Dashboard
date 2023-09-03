@@ -71,11 +71,6 @@ export default function Match(props: Props, State: State) {
 
   useEffect(() => {
     fetchMatch(props.id);
-    const likematch = localStorage.getItem("likeMatches");
-    if(likematch)
-    {
-      SetLikeMatchesState(JSON.parse(likematch))
-    }
   }, [props.id]);
 
   return (
@@ -88,7 +83,7 @@ export default function Match(props: Props, State: State) {
             </h3>
             <div className="flex">
               <button
-                className="mx-2"
+                className=""
                 onClick={() => handleatchLikes(match.id)}
               >
                 {likeMatchState.includes(match.id) ? (
@@ -96,8 +91,13 @@ export default function Match(props: Props, State: State) {
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 47.5 47.5"
                     id="heart"
-                    className="h-6 w-6 text-red-500 duration-250 cursor-pointer"
+                    className="h-6 w-6 mx-2 text-red-500 duration-150 cursor-pointer"
                   >
+                    <defs>
+                      <clipPath id="a">
+                        <path d="M0 38h38V0H0v38Z"></path>
+                      </clipPath>
+                    </defs>
                     <g
                       clip-path="url(#a)"
                       transform="matrix(1.25 0 0 -1.25 0 47.5)"

@@ -92,10 +92,6 @@ export default function ArticleList(props: Props) {
 
   useEffect(() => {
     settingNewsState();
-    const likeArticles = localStorage.getItem("likeArticles");
-    if (likeArticles) {
-      setLikeNewsState(JSON.parse(likeArticles))
-    }
   }, [isOpen, isLoading, props]);
 
   const handNewsLikes = (id: number) => {

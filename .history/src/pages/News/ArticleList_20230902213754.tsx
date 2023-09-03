@@ -92,10 +92,6 @@ export default function ArticleList(props: Props) {
 
   useEffect(() => {
     settingNewsState();
-    const likeArticles = localStorage.getItem("likeArticles");
-    if (likeArticles) {
-      setLikeNewsState(JSON.parse(likeArticles))
-    }
   }, [isOpen, isLoading, props]);
 
   const handNewsLikes = (id: number) => {
@@ -148,7 +144,7 @@ export default function ArticleList(props: Props) {
             >
               <div className="border rounded-md w-full dark:bg-gray-800 bg-white flex justify-between items-center">
                 <div className="px-4">
-                  <div className="flex mt-3 justify-between">
+                  <div className="flex">
                     <p className="text-gray-700 dark:text-white">
                       {newsItem.sport.name}
                     </p>

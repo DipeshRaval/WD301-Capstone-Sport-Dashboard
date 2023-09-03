@@ -18,7 +18,6 @@ export default function ArticleList(props: Props) {
   let { news } = state;
 
   const [newsState, setNewsState] = useState(news);
-  const [likeNewsState, setLikeNewsState] = useState<number[]>([])
 
   if (props.sortType && props.sortType !== "Sort By: ") {
     if (props.sortType === "Date") {
@@ -92,10 +91,6 @@ export default function ArticleList(props: Props) {
 
   useEffect(() => {
     settingNewsState();
-    const likeArticles = localStorage.getItem("likeArticles");
-    if (likeArticles) {
-      setLikeNewsState(JSON.parse(likeArticles))
-    }
   }, [isOpen, isLoading, props]);
 
   const handNewsLikes = (id: number) => {
@@ -109,10 +104,8 @@ export default function ArticleList(props: Props) {
         updateLikes.push(id);
       }
       localStorage.setItem("likeArticles", JSON.stringify(updateLikes));
-      setLikeNewsState(updateLikes)
     } else {
       localStorage.setItem("likeArticles", JSON.stringify([id]));
-      setLikeNewsState([id])
     }
   };
 
@@ -148,7 +141,7 @@ export default function ArticleList(props: Props) {
             >
               <div className="border rounded-md w-full dark:bg-gray-800 bg-white flex justify-between items-center">
                 <div className="px-4">
-                  <div className="flex mt-3 justify-between">
+                  <div>
                     <p className="text-gray-700 dark:text-white">
                       {newsItem.sport.name}
                     </p>

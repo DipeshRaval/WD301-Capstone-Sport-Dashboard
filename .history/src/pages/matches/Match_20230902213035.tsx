@@ -71,11 +71,6 @@ export default function Match(props: Props, State: State) {
 
   useEffect(() => {
     fetchMatch(props.id);
-    const likematch = localStorage.getItem("likeMatches");
-    if(likematch)
-    {
-      SetLikeMatchesState(JSON.parse(likematch))
-    }
   }, [props.id]);
 
   return (

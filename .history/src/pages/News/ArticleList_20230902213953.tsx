@@ -94,7 +94,7 @@ export default function ArticleList(props: Props) {
     settingNewsState();
     const likeArticles = localStorage.getItem("likeArticles");
     if (likeArticles) {
-      setLikeNewsState(JSON.parse(likeArticles))
+      setLikeNewsState(likeArticles)
     }
   }, [isOpen, isLoading, props]);
 
