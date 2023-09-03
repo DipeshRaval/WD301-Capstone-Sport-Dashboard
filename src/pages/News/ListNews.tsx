@@ -1,13 +1,19 @@
-import React, { Fragment, useContext, useEffect, useState } from "react";
+import React, {
+  Fragment,
+  useContext,
+  useEffect,
+  useState,
+  Suspense,
+} from "react";
 import { FunnelIcon } from "@heroicons/react/24/outline";
-import ArticleList from "./ArticleList";
 import { useSportState } from "../../context/sport/context";
 import { Sport } from "../../context/sport/reducer";
-import Favourites from "./Favourites";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import { CustomizeContext } from "../../context/customizeState";
 import { FetchPreferences } from "../Preferances";
+const Favourites = React.lazy(() => import("./Favourites"));
+const ArticleList = React.lazy(() => import("./ArticleList"));
 
 export default function ListNews() {
   const [filter, setFilter] = useState("");
@@ -156,13 +162,17 @@ export default function ListNews() {
             </div>
           </div>
         </div>
-        <div className="bg-gray-100 mt-3 dark:bg-gray-700">
-          <ArticleList sortType={changeSortBy} filter={filter} />
+        <Suspense fallback={<div className="suspense-loading">Loading...</div>}>
+          <div className="bg-gray-100 mt-3 dark:bg-gray-700">
+            <ArticleList sortType={changeSortBy} filter={filter} />
+          </div>
+        </Suspense>
+      </div>
+      <Suspense fallback={<div className="suspense-loading">Loading...</div>}>
+        <div className="bg-gray-300 dark:bg-gray-700 rounded-md mx-2 w-3/12 p-4">
+          <Favourites />
         </div>
-      </div>
-      <div className="bg-gray-300 dark:bg-gray-700 rounded-md mx-2 w-3/12 p-4">
-        <Favourites />
-      </div>
+      </Suspense>
     </div>
   );
 }

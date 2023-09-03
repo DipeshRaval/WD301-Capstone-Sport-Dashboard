@@ -1,7 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, Suspense } from "react";
 import { useMatchesDispatch } from "../../context/matches/context";
 import { fetchMatches } from "../../context/matches/action";
-import LiveMatchList from "./LiveMatchList";
+import ErrorBoundary from "../../components/ErrorBoundary";
+const LiveMatchList = React.lazy(() => import("./LiveMatchList"));
 
 export default function LiveMatch() {
   const matcheDispatch = useMatchesDispatch();
@@ -15,9 +16,13 @@ export default function LiveMatch() {
       <h1 className="text-gray-900 dark:text-white font-bold text-xl">
         Live Games
       </h1>
-      <div className="overflow-x-auto mt-2 flex items-center w-full">
-        <LiveMatchList />
-      </div>
+      <ErrorBoundary>
+        <Suspense fallback={<div className="suspense-loading">Loading...</div>}>
+          <div className="overflow-x-auto mt-2 flex items-center w-full">
+            <LiveMatchList />
+          </div>
+        </Suspense>
+      </ErrorBoundary>
     </div>
   );
 }
