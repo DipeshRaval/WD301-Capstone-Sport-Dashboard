@@ -18,7 +18,7 @@ export default function ArticleList(props: Props) {
   let { news } = state;
 
   const [newsState, setNewsState] = useState(news);
-  const [likeNewsState, setLikeNewsState] = useState<number[]>([])
+  const [likeNewsState, setLikeNewsState] = useState<number[]>([]);
 
   if (props.sortType && props.sortType !== "Sort By: ") {
     if (props.sortType === "Date") {
@@ -45,6 +45,14 @@ export default function ArticleList(props: Props) {
         }
         return 0;
       });
+    } else if (props.sortType === "Favourites") {
+      const likesArticles = localStorage.getItem("likeArticles");
+      if (likesArticles) {
+        const likesArticlesArray = JSON.parse(likesArticles);
+        news = news.filter((newsItem: News) => {
+          return likesArticlesArray.includes(newsItem.id);
+        });
+      }
     }
   }
 
@@ -94,7 +102,7 @@ export default function ArticleList(props: Props) {
     settingNewsState();
     const likeArticles = localStorage.getItem("likeArticles");
     if (likeArticles) {
-      setLikeNewsState(JSON.parse(likeArticles))
+      setLikeNewsState(JSON.parse(likeArticles));
     }
   }, [isOpen, isLoading, props]);
 
@@ -109,10 +117,10 @@ export default function ArticleList(props: Props) {
         updateLikes.push(id);
       }
       localStorage.setItem("likeArticles", JSON.stringify(updateLikes));
-      setLikeNewsState(updateLikes)
+      setLikeNewsState(updateLikes);
     } else {
       localStorage.setItem("likeArticles", JSON.stringify([id]));
-      setLikeNewsState([id])
+      setLikeNewsState([id]);
     }
   };
 
@@ -129,10 +137,21 @@ export default function ArticleList(props: Props) {
     return <span>{errorMessage}</span>;
   }
 
+  if (
+    localStorage.getItem("likeArticles") == null &&
+    props.sortType === "Favourites"
+  ) {
+    return (
+      <span className="ml-8 dark:text-white dark:bg-gray-700">
+        No articles for Favourite Aeticles{" "}
+      </span>
+    );
+  }
+
   if (newsState.length === 0) {
     return (
       <span className="ml-8 dark:text-white dark:bg-gray-700">
-        No articles for this sport{" "}
+        No articles for this Selection{" "}
       </span>
     );
   }
@@ -144,9 +163,9 @@ export default function ArticleList(props: Props) {
           return (
             <div
               key={newsItem.id}
-              className="flex justify-between w-full px-4 my-2"
+              className="fle justify-between w-full px-4 my-2"
             >
-              <div className="border rounded-md w-full dark:bg-gray-800 bg-white flex justify-between items-center">
+              <div className="border rounded-md w-full dark:hover:bg-gray-600 hover:bg-slate-200 duration-100 transition-colors dark:bg-gray-800 bg-white flex justify-between items-center">
                 <div className="px-4">
                   <div className="flex mt-3 justify-between">
                     <p className="text-gray-700 dark:text-white">
@@ -154,7 +173,7 @@ export default function ArticleList(props: Props) {
                     </p>
                     <button
                       className="mx-2"
-                      onClick={() => (handNewsLikes(newsItem.id))}
+                      onClick={() => handNewsLikes(newsItem.id)}
                     >
                       {likeNewsState.includes(newsItem.id) ? (
                         <svg

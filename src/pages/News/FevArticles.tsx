@@ -41,7 +41,7 @@ export default function FevArticles(props: Props) {
     if (isLoggedIn) {
       const data = await FetchPreferences();
       if (data && Object.keys(data.preferences).length) {
-        const preferanceNews : News[] = [];
+        const preferanceNews: News[] = [];
         if (data.preferences.SelectedSport.length) {
           filteredArticles.forEach((newsItem: any) => {
             if (data.preferences.SelectedSport.includes(newsItem.sport.name)) {
@@ -59,7 +59,7 @@ export default function FevArticles(props: Props) {
           });
         }
 
-        setFevArticles([... new Set(preferanceNews)]);
+        setFevArticles([...new Set(preferanceNews)]);
       } else {
         setFevArticles(filteredArticles);
       }
@@ -95,7 +95,7 @@ export default function FevArticles(props: Props) {
           return (
             <div
               key={newsItem.id}
-              className="bg-white dark:bg-slate-800 rounded-md my-3 p-3"
+              className="bg-white dark:hover:bg-slate-600 hover:bg-slate-200 dark:bg-slate-800 rounded-md my-3 p-3"
             >
               <h1 className="font-bold text-gray-900 dark:text-white text-xl">
                 {newsItem.title.substring(0, 30)}...

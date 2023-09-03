@@ -1,10 +1,6 @@
 import { Fragment, useState, useContext, useEffect } from "react";
 import { Disclosure, Menu, Transition, Switch } from "@headlessui/react";
-import {
-  UserCircleIcon,
-  MoonIcon,
-  SunIcon
-} from "@heroicons/react/24/outline";
+import { UserCircleIcon, MoonIcon, SunIcon } from "@heroicons/react/24/outline";
 import Logo from "../../assets/logo.png";
 import { fetchTeams } from "../../context/teams/action";
 import { fetchSport } from "../../context/sport/action";
@@ -14,7 +10,6 @@ import { Link } from "react-router-dom";
 import { ThemeContext } from "../../context/theme";
 import { Cog6ToothIcon } from "@heroicons/react/24/solid";
 import { CustomizeContext } from "../../context/customizeState";
-
 
 const intial = [{ name: "Sign out", href: "/logout" }];
 
@@ -29,7 +24,7 @@ const Appbar = () => {
 
   const { theme, setTheme } = useContext(ThemeContext);
 
-  const { setIsOpen} = useContext(CustomizeContext)
+  const { setIsOpen } = useContext(CustomizeContext);
 
   const [enabled, setEnabled] = useState(theme === "dark");
 
@@ -42,6 +37,7 @@ const Appbar = () => {
     }
     setEnabled(!enabled);
     setTheme(newTheme);
+    localStorage.setItem("theme", newTheme);
   };
 
   const isAuth = !!localStorage.getItem("authToken");
@@ -92,7 +88,13 @@ const Appbar = () => {
                 </div>
                 {isAuth && (
                   <Link to={"/preferances"}>
-                    <Cog6ToothIcon onClick={()=>{ setIsOpen(true)} } className="h-8 w-6" aria-hidden="true" />
+                    <Cog6ToothIcon
+                      onClick={() => {
+                        setIsOpen(true);
+                      }}
+                      className="h-8 w-6"
+                      aria-hidden="true"
+                    />
                   </Link>
                 )}
                 <div className="hidden md:block">

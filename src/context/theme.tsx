@@ -8,7 +8,8 @@ const ThemeContext = createContext<ThemeContextProps>({
   setTheme: () => {},
 });
 const ThemeProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
-  const [theme, setTheme] = useState("light");
+  const prevTheame = localStorage.getItem("theme");
+  const [theme, setTheme] = useState(prevTheame ? prevTheame : "light");
   const valueToShare = {
     theme,
     setTheme,

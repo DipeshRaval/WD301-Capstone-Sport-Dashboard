@@ -24,35 +24,37 @@ export default function ListNews() {
   };
 
   const [sportOption, setOptionSport] = useState(
-    sports.map((sport:Sport) => sport.name)
-  )
+    sports.map((sport: Sport) => sport.name)
+  );
 
   const items = [
+    { id: 0, name: "Sort By:" },
     { id: 1, name: "Title" },
     { id: 2, name: "Date" },
     { id: 3, name: "Sport Type" },
+    { id: 4, name: "Favourites" },
   ];
 
   const isLoggedIn = !!localStorage.getItem("userData");
 
-  const {isOpen} = useContext(CustomizeContext)
+  const { isOpen } = useContext(CustomizeContext);
 
   const settingOptionSport = async () => {
-    if(isLoggedIn){
-      const data = await FetchPreferences()
-      if(data && Object.keys(data.preferences).length)
-      {
-        data.preferences.SelectedSport.length !== 0 ? setOptionSport(data.preferences.SelectedSport) : setOptionSport(sports.map((sport:Sport) => sport.name))
+    if (isLoggedIn) {
+      const data = await FetchPreferences();
+      if (data && Object.keys(data.preferences).length) {
+        data.preferences.SelectedSport.length !== 0
+          ? setOptionSport(data.preferences.SelectedSport)
+          : setOptionSport(sports.map((sport: Sport) => sport.name));
       }
-    }else{
-      setOptionSport(sports.map((sport:Sport) => sport.name))
+    } else {
+      setOptionSport(sports.map((sport: Sport) => sport.name));
     }
-  }  
+  };
 
-
-  useEffect(()=>{
-    settingOptionSport()
-  }, [isLoading, isOpen])
+  useEffect(() => {
+    settingOptionSport();
+  }, [isLoading, isOpen]);
 
   return (
     <div className="flex h-[85vh] w-full">
