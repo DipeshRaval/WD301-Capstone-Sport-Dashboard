@@ -27,13 +27,12 @@ const SigninForm: React.FC = () => {
         body: JSON.stringify({ email, password }),
       });
 
-      const data = await response.json();   
+      const data = await response.json();
 
       if (!response.ok) {
-        if(data.errors.includes("Invalid email or password"))
-        {
+        if (data.errors.includes("Invalid email or password")) {
           throw new Error(`${data.errors}`);
-        }else{
+        } else {
           throw new Error("Sign-in failed");
         }
       }
@@ -74,7 +73,9 @@ const SigninForm: React.FC = () => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div>
-        <label className="block text-gray-700 font-semibold mb-2">Email:</label>
+        <label className="block text-gray-700 dark:text-white font-semibold mb-2">
+          Email:
+        </label>
         <input
           type="email"
           id="email"
@@ -86,7 +87,7 @@ const SigninForm: React.FC = () => {
         )}
       </div>
       <div>
-        <label className="block text-gray-700 font-semibold mb-2">
+        <label className="block dark:text-white text-gray-700 font-semibold mb-2">
           Password:
         </label>
         <input
@@ -101,13 +102,18 @@ const SigninForm: React.FC = () => {
       </div>
       <button
         type="submit"
-        className="w-full bg-gray-700 hover:bg-gray-800 text-white font-semibold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline-gray mt-4"
+        className="w-full bg-green-500 hover:bg-green-700 text-gray-800 font-semibold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline-gray mt-4"
       >
         Sign In
       </button>
       <p className="mt-2">
-        Are you new User ?{" "}
-        <Link className="font-bold text-blue-800 underline" to="/signup">
+        <span className="text-gray-900 dark:text-white">
+          Are you new User ?
+        </span>
+        <Link
+          className="font-bold text-blue-800 dark:text-blue-400 underline mx-2"
+          to="/signup"
+        >
           Register Here
         </Link>
       </p>

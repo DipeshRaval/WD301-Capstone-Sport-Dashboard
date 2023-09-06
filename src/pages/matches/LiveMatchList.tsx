@@ -3,6 +3,8 @@ import { useMatchesState } from "../../context/matches/context";
 import Match from "./Match";
 import { CustomizeContext } from "../../context/customizeState";
 import { FetchPreferences } from "../Preferances";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 interface Team {
   id: number;
@@ -14,49 +16,66 @@ export default function LiveMatchList() {
   const { isLoading, isError, errorMessage } = state;
   let { matches } = state;
   const [matchesList, setMatchesList] = useState(matches);
-
+  const navigate = useNavigate();
   const { isOpen } = useContext(CustomizeContext);
   const isLoggedIn = !!localStorage.getItem("userData");
 
   const settingMatchList = async () => {
     if (isLoggedIn) {
-      const data = await FetchPreferences();
-      if (data && Object.keys(data?.preferences).length) {
-        let filterMatches: any[] = [];
-        if (
-          data.preferences.SelectedSport.length ||
-          data.preferences.SelectedTeams.length
-        ) {
-          if (data.preferences.SelectedSport.length) {
-            matches.forEach((match: any) => {
-              if (
-                data.preferences.SelectedSport.includes(match.sportName) &&
-                match.isRunning
-              ) {
-                filterMatches.push(match);
-              }
-            });
-          }
-
-          if (data.preferences.SelectedTeams.length) {
-            matches.forEach((match: any) => {
-              match.teams.forEach((team: Team) => {
+      try {
+        const data = await FetchPreferences();
+        if (data?.errors) {
+          throw new Error(`${data.errors}`);
+        }
+        if (data && Object.keys(data?.preferences).length) {
+          let filterMatches: any[] = [];
+          if (
+            data.preferences.SelectedSport.length ||
+            data.preferences.SelectedTeams.length
+          ) {
+            if (data.preferences.SelectedSport.length) {
+              matches.forEach((match: any) => {
                 if (
-                  data.preferences.SelectedTeams.includes(team.name) &&
+                  data.preferences.SelectedSport.includes(match.sportName) &&
                   match.isRunning
                 ) {
                   filterMatches.push(match);
                 }
               });
+            }
+
+            if (data.preferences.SelectedTeams.length) {
+              matches.forEach((match: any) => {
+                match.teams.forEach((team: Team) => {
+                  if (
+                    data.preferences.SelectedTeams.includes(team.name) &&
+                    match.isRunning
+                  ) {
+                    filterMatches.push(match);
+                  }
+                });
+              });
+            }
+            setMatchesList([...new Set(filterMatches)]);
+          } else {
+            matches = matches?.filter((match: any) => {
+              return match.isRunning;
             });
+            setMatchesList(matches);
           }
-          setMatchesList([...new Set(filterMatches)]);
-        } else {
-          matches = matches?.filter((match: any) => {
-            return match.isRunning;
-          });          
-          setMatchesList(matches);
         }
+      } catch (error) {
+        toast.error(`${error}`, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+        navigate("/signin");
       }
     } else {
       matches = matches?.filter((match: any) => {

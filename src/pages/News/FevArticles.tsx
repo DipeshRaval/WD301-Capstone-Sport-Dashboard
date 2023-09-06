@@ -40,7 +40,12 @@ export default function FevArticles(props: Props) {
 
     if (isLoggedIn) {
       const data = await FetchPreferences();
-      if (data && Object.keys(data.preferences).length) {
+      if (
+        (data &&
+          Object.keys(data.preferences).length &&
+          data.preferences.SelectedSport.length) ||
+        data.preferences.SelectedTeams.length
+      ) {
         const preferanceNews: News[] = [];
         if (data.preferences.SelectedSport.length) {
           filteredArticles.forEach((newsItem: any) => {

@@ -183,7 +183,7 @@ export default function ArticleList(props: Props) {
                           className="h-6 w-6 text-red-500 duration-250 cursor-pointer"
                         >
                           <g
-                            clip-path="url(#a)"
+                            clipPath="url(#a)"
                             transform="matrix(1.25 0 0 -1.25 0 47.5)"
                           >
                             <path

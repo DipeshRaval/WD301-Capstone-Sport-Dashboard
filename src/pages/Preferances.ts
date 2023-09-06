@@ -16,8 +16,7 @@ export const FetchPreferences = async () => {
   });
 
   const data: Data = await response.json();
- 
-  console.log(data);
+  // console.log(data);
   return data;
 };
 
@@ -45,4 +44,3 @@ export const SetPreferences = async (preferences: UserPreferances) => {
     FetchPreferences();
   }
 };
-

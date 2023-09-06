@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
 import { API_ENDPOINT } from "../../config/constants";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 interface Props {
   id: number;
@@ -98,7 +100,7 @@ export default function Match(props: Props, State: State) {
                     className="h-6 w-6 text-red-500 duration-250 cursor-pointer"
                   >
                     <g
-                      clip-path="url(#a)"
+                      clipPath="url(#a)"
                       transform="matrix(1.25 0 0 -1.25 0 47.5)"
                     >
                       <path

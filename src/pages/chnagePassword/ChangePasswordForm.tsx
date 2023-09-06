@@ -30,17 +30,15 @@ export default function ChangePasswordForm() {
         },
         body: JSON.stringify({ current_password, new_password }),
       });
-      
+
       const data = await response.json();
       if (!response.ok) {
-        if(data.errors.includes("Invalid email or password"))
-        {
+        if (data.errors.includes("Invalid email or password")) {
           throw new Error(`${data.errors}`);
-        }else{
+        } else {
           throw new Error("Password chnage operation failed");
         }
       }
-
 
       localStorage.removeItem("authToken");
       localStorage.removeItem("userData");
@@ -55,7 +53,7 @@ export default function ChangePasswordForm() {
         draggable: true,
         progress: undefined,
         theme: "colored",
-        });
+      });
     } catch (error) {
       console.error("Password chnage operation failed:", error);
       toast.error(`${error}`, {
@@ -74,7 +72,7 @@ export default function ChangePasswordForm() {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div>
-        <label className="block text-gray-700 font-semibold mb-2">
+        <label className="block text-gray-700 dark:text-white font-semibold mb-2">
           Current Password:
         </label>
         <input
@@ -88,7 +86,7 @@ export default function ChangePasswordForm() {
         )}
       </div>
       <div>
-        <label className="block text-gray-700 font-semibold mb-2">
+        <label className="block text-gray-700 dark:text-white font-semibold mb-2">
           New Password:
         </label>
         <input
@@ -107,6 +105,15 @@ export default function ChangePasswordForm() {
       >
         Change Password
       </button>
+      <p className="mt-2">
+        <span>Go to Home 👉👉</span>
+        <Link
+          to="/"
+          className="mx-2 underline text-blue-600 dark:text-blue-400"
+        >
+          Home
+        </Link>
+      </p>
     </form>
   );
 }

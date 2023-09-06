@@ -2,7 +2,7 @@ import React from "react";
 import { API_ENDPOINT } from "../../config/constants";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
-import {  toast } from 'react-toastify';
+import { toast } from "react-toastify";
 
 type Inputs = {
   userName: string;
@@ -50,7 +50,7 @@ const SignupForm: React.FC = () => {
         draggable: true,
         progress: undefined,
         theme: "colored",
-        });
+      });
     } catch (error) {
       console.error("Sign-up failed:", error);
       toast.error(`Something went Wrong`, {
@@ -62,14 +62,14 @@ const SignupForm: React.FC = () => {
         draggable: true,
         progress: undefined,
         theme: "colored",
-        });
+      });
     }
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div>
-        <label className="block text-gray-700 font-semibold mb-2">
+        <label className="block text-gray-700 dark:text-gray-200 font-semibold mb-2">
           Your Name:
         </label>
         <input
@@ -83,7 +83,9 @@ const SignupForm: React.FC = () => {
         )}
       </div>
       <div>
-        <label className="block text-gray-700 font-semibold mb-2">Email:</label>
+        <label className="block text-gray-700 dark:text-gray-200 font-semibold mb-2">
+          Email:
+        </label>
         <input
           type="email"
           id="userEmail"
@@ -95,7 +97,7 @@ const SignupForm: React.FC = () => {
         )}
       </div>
       <div>
-        <label className="block text-gray-700 font-semibold mb-2">
+        <label className="block text-gray-700 dark:text-gray-200 font-semibold mb-2">
           Password:
         </label>
         <input
@@ -110,16 +112,18 @@ const SignupForm: React.FC = () => {
       </div>
       <button
         type="submit"
-        className="w-full bg-gray-700 hover:bg-gray-800 text-white font-semibold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline-gray mt-4"
+        className="w-full bg-green-500 hover:bg-green-600 text-gray-800 font-semibold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline-gray mt-4"
       >
         Sign up
       </button>
       <p className="mt-2 ">
-        <span className="text-gray-900 dark:text-gary-900">
-          {" "}
+        <span className="text-gray-900 dark:text-gray-200">
           Are you existing User ?{" "}
         </span>
-        <Link className="font-bold  text-blue-800 underline ml-1" to="/signin">
+        <Link
+          className="font-bold dark:text-blue-400 text-blue-800 underline ml-1"
+          to="/signin"
+        >
           Login Here
         </Link>
       </p>

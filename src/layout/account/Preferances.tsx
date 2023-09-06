@@ -5,7 +5,11 @@ import { useSportState } from "../../context/sport/context";
 import { Sport } from "../../context/sport/reducer";
 import { Team } from "../../context/teams/reducer";
 import { useTeamState } from "../../context/teams/context";
-import { Data, FetchPreferences, SetPreferences } from "../../pages/Preferances";
+import {
+  Data,
+  FetchPreferences,
+  SetPreferences,
+} from "../../pages/Preferances";
 import { useNavigate } from "react-router-dom";
 import { CustomizeContext } from "../../context/customizeState";
 import { toast } from "react-toastify";
@@ -49,25 +53,15 @@ export default function Preferances() {
   useEffect(() => {
     if (isLoggedIn) {
       FetchPreferences()
-        .then((data: Data ) => {
+        .then((data: Data) => {
           if (Object.keys(data.preferences).length !== 0) {
             setPreferances(data.preferences);
-          }else if((data?.errors)){
-            throw new Error(`${data.errors}`)
+          } else if (data?.errors) {
+            throw new Error(`${data.errors}`);
           }
         })
         .catch((error) => {
-          toast.error(`${error}`, {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "colored",
-          });
-          navigate("/signin");
+          console.log(error);
         });
     }
   }, [openModalState, isOpen]);
