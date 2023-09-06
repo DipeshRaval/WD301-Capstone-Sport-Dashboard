@@ -40,33 +40,36 @@ export default function FevArticles(props: Props) {
 
     if (isLoggedIn) {
       const data = await FetchPreferences();
-      if (
-        (data &&
-          Object.keys(data.preferences).length &&
-          data.preferences.SelectedSport.length) ||
-        data.preferences.SelectedTeams.length
-      ) {
-        const preferanceNews: News[] = [];
-        if (data.preferences.SelectedSport.length) {
-          filteredArticles.forEach((newsItem: any) => {
-            if (data.preferences.SelectedSport.includes(newsItem.sport.name)) {
-              preferanceNews.push(newsItem);
-            }
-          });
-        }
-        if (data.preferences.SelectedTeams.length) {
-          filteredArticles.forEach((newsItem: News) => {
-            newsItem.teams.forEach((team: any) => {
-              if (data.preferences.SelectedTeams.includes(team.name)) {
+      if (data && !data.errors) {
+        if (
+          (Object.keys(data.preferences).length &&
+            data.preferences.SelectedSport.length) ||
+          data.preferences.SelectedTeams.length
+        ) {
+          const preferanceNews: News[] = [];
+          if (data.preferences.SelectedSport.length) {
+            filteredArticles.forEach((newsItem: any) => {
+              if (
+                data.preferences.SelectedSport.includes(newsItem.sport.name)
+              ) {
                 preferanceNews.push(newsItem);
               }
             });
-          });
-        }
+          }
+          if (data.preferences.SelectedTeams.length) {
+            filteredArticles.forEach((newsItem: News) => {
+              newsItem.teams.forEach((team: any) => {
+                if (data.preferences.SelectedTeams.includes(team.name)) {
+                  preferanceNews.push(newsItem);
+                }
+              });
+            });
+          }
 
-        setFevArticles([...new Set(preferanceNews)]);
-      } else {
-        setFevArticles(filteredArticles);
+          setFevArticles([...new Set(preferanceNews)]);
+        } else {
+          setFevArticles(filteredArticles);
+        }
       }
     } else {
       setFevArticles(filteredArticles);

@@ -48,7 +48,7 @@ export default function ListNews() {
   const settingOptionSport = async () => {
     if (isLoggedIn) {
       const data = await FetchPreferences();
-      if (data && Object.keys(data.preferences).length) {
+      if (data && !data.errors && Object.keys(data.preferences).length) {
         data.preferences.SelectedSport.length !== 0
           ? setOptionSport(data.preferences.SelectedSport)
           : setOptionSport(sports.map((sport: Sport) => sport.name));

@@ -36,24 +36,23 @@ export default function Favourites() {
   const settingOptionState = async () => {
     if (isLoggedIn) {
       const data = await FetchPreferences();
-      if (
-        data &&
-        Object.keys(data ? data?.preferences : {}).length
-      ) {
-        data.preferences.SelectedSport.length !== 0
-          ? setOptionFevSport(data.preferences.SelectedSport)
-          : setOptionFevSport(sports.map((sport: Sport) => sport.name));
-        if (data.preferences.SelectedTeams.length !== 0) {
-          setOptionFevTeam(data.preferences.SelectedTeams);
-        } else {
-          if (fevSport && fevSport !== "Favourite Sport") {
-            let newTeams = teams.filter((team: Team) => {
-              if (team.plays === fevSport) return team.name;
-            });
-
-            setOptionFevTeam(newTeams.map((team: Team) => team.name));
+      if (data && !data?.errors) {
+        if (Object.keys(data ? data?.preferences : {}).length) {
+          data.preferences.SelectedSport.length !== 0
+            ? setOptionFevSport(data.preferences.SelectedSport)
+            : setOptionFevSport(sports.map((sport: Sport) => sport.name));
+          if (data.preferences.SelectedTeams.length !== 0) {
+            setOptionFevTeam(data.preferences.SelectedTeams);
           } else {
-            setOptionFevTeam(teams.map((team: Team) => team.name));
+            if (fevSport && fevSport !== "Favourite Sport") {
+              let newTeams = teams.filter((team: Team) => {
+                if (team.plays === fevSport) return team.name;
+              });
+
+              setOptionFevTeam(newTeams.map((team: Team) => team.name));
+            } else {
+              setOptionFevTeam(teams.map((team: Team) => team.name));
+            }
           }
         }
       }

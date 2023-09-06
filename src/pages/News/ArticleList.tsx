@@ -13,7 +13,6 @@ interface Props {
 
 export default function ArticleList(props: Props) {
   const state: any = useNewsState();
-
   const { isLoading, isError, errorMessage } = state;
   let { news } = state;
 
@@ -62,7 +61,7 @@ export default function ArticleList(props: Props) {
   const settingNewsState = async () => {
     if (isLoggedIn) {
       const data = await FetchPreferences();
-      if (data) {
+      if (data && !data?.errors) {
         if (Object.keys(data?.preferences).length) {
           if (props.filter) {
             setNewsState(
