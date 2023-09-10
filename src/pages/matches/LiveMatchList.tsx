@@ -75,7 +75,7 @@ export default function LiveMatchList() {
             );
           } else if (data.preferences.SelectedTeams.length) {
             let filterMatches: any[] = [];
-            matches.filter((match: any) => {
+            matches.forEach((match: any) => {
               match.teams.forEach((team: any) => {
                 if (
                   data.preferences.SelectedTeams.includes(team.name) &&

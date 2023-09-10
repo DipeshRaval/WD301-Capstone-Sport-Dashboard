@@ -7,7 +7,8 @@ import { CustomizeContext } from "../../context/customizeState";
 import { FetchPreferences } from "../Preferances";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-
+import { useTeamState } from "../../context/teams/context";
+import { Team } from "../../context/teams/reducer";
 interface Props {
   filter: string;
   sortType: string;
@@ -20,6 +21,9 @@ export default function ArticleList(props: Props) {
 
   const [newsState, setNewsState] = useState(news);
   const [likeNewsState, setLikeNewsState] = useState<number[]>([]);
+
+  const teamState: any = useTeamState();
+  const { teams } = teamState;
 
   if (props.sortType && props.sortType !== "Sort By: ") {
     if (props.sortType === "Date") {
@@ -66,14 +70,80 @@ export default function ArticleList(props: Props) {
       if (data && !data?.errors) {
         if (Object.keys(data?.preferences).length) {
           if (props.filter) {
-            setNewsState(
-              news.filter((newsItem: any) => {
-                return newsItem.sport.name === props.filter;
+            setNewsState([]);
+            let filterNews: any[] = [];
+
+            let filterBySport = news.filter((newsItem: any) => {
+              return newsItem.sport.name === props.filter;
+            });
+
+            console.log(filterBySport);
+
+            const teamsForSelectedSport = teams.filter((team: Team) => {
+              return team.plays === props.filter;
+            });
+
+            if (
+              teamsForSelectedSport.some((team: Team) => {
+                return data.preferences.SelectedTeams.includes(team.name);
               })
-            );
+            ) {
+              teamsForSelectedSport.forEach((team: Team) => {
+                if (data.preferences.SelectedTeams.includes(team.name)) {
+                  filterBySport.forEach((newsItem: any) => {
+                    if (
+                      newsItem.teams.some((teamObj: any) => {
+                        return teamObj.name === team.name;
+                      })
+                    ) {
+                      filterNews.push(newsItem);
+                    }
+                  });
+                }
+              });
+            } else {
+              filterNews.push(...filterBySport);
+            }
+            setNewsState(filterNews);
           } else {
-            //chnage is required
-            if (data?.preferences.SelectedSport.length) {
+            if (
+              data.preferences.SelectedSport.length &&
+              data.preferences.SelectedTeams.length
+            ) {
+              let filterNews: any[] = [];
+              data.preferences.SelectedSport.forEach((sport: string) => {
+                let filterNewsBySport = news.filter((newsItem: any) => {
+                  return newsItem.sport.name === sport;
+                });
+
+                const teamsForSelectedSport = teams.filter((team: Team) => {
+                  return team.plays === sport;
+                });
+
+                if (
+                  teamsForSelectedSport.some((team: Team) => {
+                    return data.preferences.SelectedTeams.includes(team.name);
+                  })
+                ) {
+                  teamsForSelectedSport.forEach((team: Team) => {
+                    if (data.preferences.SelectedTeams.includes(team.name)) {
+                      filterNewsBySport.forEach((newsItem: any) => {
+                        if (
+                          newsItem.teams.some((teamObj: any) => {
+                            return teamObj.name === team.name;
+                          })
+                        ) {
+                          filterNews.push(newsItem);
+                        }
+                      });
+                    }
+                  });
+                } else {
+                  filterNews.push(...filterNewsBySport);
+                }
+              });
+              setNewsState(filterNews);
+            } else if (data?.preferences.SelectedSport.length) {
               setNewsState(
                 news.filter((newsItem: any) => {
                   return data?.preferences.SelectedSport.includes(
@@ -81,6 +151,16 @@ export default function ArticleList(props: Props) {
                   );
                 })
               );
+            } else if (data.preferences.SelectedTeams.length) {
+              let filterNews: any[] = [];
+              news.forEach((newsItem: any) => {
+                newsItem.teams.forEach((team: any) => {
+                  if (data.preferences.SelectedTeams.includes(team.name)) {
+                    filterNews.push(newsItem);
+                  }
+                });
+              });
+              setNewsState(filterNews);
             } else {
               setNewsState(news);
             }
@@ -216,6 +296,8 @@ export default function ArticleList(props: Props) {
       </span>
     );
   }
+
+  console.log(newsState);
 
   return (
     <div className="overflow-y-auto dark:bg-gray-700 h-[75vh] relative bottom-0">
