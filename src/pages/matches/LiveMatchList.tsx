@@ -5,11 +5,8 @@ import { CustomizeContext } from "../../context/customizeState";
 import { FetchPreferences } from "../Preferances";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-
-interface Team {
-  id: number;
-  name: string;
-}
+import { useTeamState } from "../../context/teams/context";
+import { Team } from "../../context/teams/reducer";
 
 export default function LiveMatchList() {
   const state: any = useMatchesState();
@@ -19,7 +16,8 @@ export default function LiveMatchList() {
   const navigate = useNavigate();
   const { isOpen } = useContext(CustomizeContext);
   const isLoggedIn = !!localStorage.getItem("userData");
-
+  const teamState: any = useTeamState();
+  const { teams } = teamState;
   const settingMatchList = async () => {
     if (isLoggedIn) {
       try {
@@ -28,46 +26,79 @@ export default function LiveMatchList() {
           throw new Error(`${data.errors}`);
         }
         if (data && Object.keys(data?.preferences).length) {
-          let filterMatches: any[] = [];
           if (
-            data.preferences.SelectedSport.length ||
+            data.preferences.SelectedSport.length &&
             data.preferences.SelectedTeams.length
           ) {
-            if (data.preferences.SelectedSport.length) {
-              matches.forEach((match: any) => {
-                if (
+            let filterMatches: any[] = [];
+
+            data.preferences.SelectedSport.forEach((sport: string) => {
+              let filterMatchesBySport = matches.filter((match: any) => {
+                return match.sportName === sport && match.isRunning;
+              });
+
+              const teamsPlayGame = teams.filter((team: Team) => {
+                return team.plays === sport;
+              });
+
+              if (
+                teamsPlayGame.some((team: Team) => {
+                  return data.preferences.SelectedTeams.includes(team.name);
+                })
+              ) {
+                teamsPlayGame.forEach((team: Team) => {
+                  if (data.preferences.SelectedTeams.includes(team.name)) {
+                    filterMatchesBySport.forEach((match: any) => {
+                      if (
+                        match.teams.some((playingTeam: any) => {
+                          return playingTeam.name === team.name;
+                        })
+                      ) {
+                        filterMatches.push(match);
+                      }
+                    });
+                  }
+                });
+              } else {
+                filterMatches.push(...filterMatchesBySport);
+              }
+            });
+            setMatchesList(filterMatches);
+          } else if (data.preferences.SelectedSport.length) {
+            setMatchesList(
+              matches.filter((match: any) => {
+                return (
                   data.preferences.SelectedSport.includes(match.sportName) &&
+                  match.isRunning
+                );
+              })
+            );
+          } else if (data.preferences.SelectedTeams.length) {
+            let filterMatches: any[] = [];
+            matches.filter((match: any) => {
+              match.teams.forEach((team: any) => {
+                if (
+                  data.preferences.SelectedTeams.includes(team.name) &&
                   match.isRunning
                 ) {
                   filterMatches.push(match);
                 }
               });
-            }
-
-            if (data.preferences.SelectedTeams.length) {
-              matches.forEach((match: any) => {
-                match.teams.forEach((team: Team) => {
-                  if (
-                    data.preferences.SelectedTeams.includes(team.name) &&
-                    match.isRunning
-                  ) {
-                    filterMatches.push(match);
-                  }
-                });
-              });
-            }
-            setMatchesList([...new Set(filterMatches)]);
-          } else {
-            matches = matches?.filter((match: any) => {
-              return match.isRunning;
             });
-            setMatchesList(matches);
+            setMatchesList(filterMatches);
+          } else {
+            setMatchesList(
+              matches?.filter((match: any) => {
+                return match.isRunning;
+              })
+            );
           }
         } else {
-          matches = matches?.filter((match: any) => {
-            return match.isRunning;
-          });
-          setMatchesList(matches);
+          setMatchesList(
+            matches?.filter((match: any) => {
+              return match.isRunning;
+            })
+          );
         }
       } catch (error) {
         toast.error(`${error}`, {
@@ -83,10 +114,11 @@ export default function LiveMatchList() {
         navigate("/signin");
       }
     } else {
-      matches = matches?.filter((match: any) => {
-        return match.isRunning;
-      });
-      setMatchesList(matches);
+      setMatchesList(
+        matches?.filter((match: any) => {
+          return match.isRunning;
+        })
+      );
     }
   };
 

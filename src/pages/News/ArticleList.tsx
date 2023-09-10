@@ -72,6 +72,7 @@ export default function ArticleList(props: Props) {
               })
             );
           } else {
+            //chnage is required
             if (data?.preferences.SelectedSport.length) {
               setNewsState(
                 news.filter((newsItem: any) => {
