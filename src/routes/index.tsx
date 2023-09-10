@@ -8,6 +8,8 @@ import NewsDetails from "../pages/News/NewsDetails";
 import NewsContainer from "../pages/News";
 import ChnagePassword from "../pages/chnagePassword";
 import Preferances from "../layout/account/Preferances";
+import ErrorBoundary from "../components/ErrorBoundary";
+import NotFound from "../pages/notFound";
 
 const router = createBrowserRouter([
   {
@@ -50,6 +52,10 @@ const router = createBrowserRouter([
         ],
       },
     ],
+  },
+  {
+    path: "*",
+    element: <NotFound />,
   },
 ]);
 

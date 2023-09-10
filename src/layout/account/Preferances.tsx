@@ -1,6 +1,6 @@
 import { Fragment, useState, useContext, useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { Cog6ToothIcon, XMarkIcon } from "@heroicons/react/24/solid";
+import { XMarkIcon } from "@heroicons/react/24/solid";
 import { useSportState } from "../../context/sport/context";
 import { Sport } from "../../context/sport/reducer";
 import { Team } from "../../context/teams/reducer";
@@ -12,7 +12,7 @@ import {
 } from "../../pages/Preferances";
 import { useNavigate } from "react-router-dom";
 import { CustomizeContext } from "../../context/customizeState";
-import { toast } from "react-toastify";
+import Loading from "../../assets/loading.gif";
 
 export interface UserPreferances {
   SelectedSport: string[];
@@ -26,6 +26,8 @@ export default function Preferances() {
 
   const { isOpen, setIsOpen } = useContext(CustomizeContext);
 
+  const [loading, setLoading] = useState(false);
+
   const [preferances, setPreferances] = useState<UserPreferances>({
     SelectedSport: [],
     SelectedTeams: [],
@@ -35,11 +37,6 @@ export default function Preferances() {
   const { teams } = teamState;
 
   let [openModalState, setOpenModalState] = useState(true);
-
-  const openModal = () => {
-    setOpenModalState(true);
-    setIsOpen(true);
-  };
 
   const closeModal = () => {
     SetPreferences(preferances);
@@ -51,14 +48,14 @@ export default function Preferances() {
   const isLoggedIn = !!localStorage.getItem("userData");
 
   useEffect(() => {
+    setLoading(true);
     if (isLoggedIn) {
       FetchPreferences()
         .then((data: Data) => {
           if (Object.keys(data.preferences).length !== 0) {
             setPreferances(data.preferences);
-          } else if (data?.errors) {
-            throw new Error(`${data.errors}`);
           }
+          setLoading(false);
         })
         .catch((error) => {
           console.log(error);
@@ -92,122 +89,135 @@ export default function Preferances() {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-xl transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
-                  <div className="flex items-center justify-between">
-                    <Dialog.Title
-                      as="h3"
-                      className="text-2xl font-bold leading-6 text-gray-900"
-                    >
-                      Preferances
-                    </Dialog.Title>
-                    <XMarkIcon
-                      className="h-6 w-6"
-                      onClick={closeModal}
-                      aria-hidden="true"
+                <Dialog.Panel className="w-full max-w-xl transform overflow-hidden rounded-2xl bg-white dark:bg-gray-600 p-6 text-left align-middle shadow-xl transition-all">
+                  {loading ? (
+                    <img
+                      src={Loading}
+                      className="h-8 w-8 mx-auto"
+                      alt="Loading"
                     />
-                  </div>
-                  <div className="mt-8">
-                    <h1 className="text-xl font-semibold px-2 border-b border-gray-600 pb-2">
-                      Favourite Sports
-                    </h1>
-                    <div className="border-b border-gray-600 pb-2">
-                      <div className="flex flex-wrap p-3">
-                        {!isLoading &&
-                          sports.map((sport: Sport) => (
-                            <div
-                              key={sport.id}
-                              className="flex m-2 items-center justify-between w-36"
-                            >
-                              <label
-                                className="cursor-pointer"
-                                htmlFor={sport.name}
-                              >
-                                {sport.name}
-                              </label>
-                              <input
-                                id={sport.name}
-                                checked={preferances?.SelectedSport?.includes(
-                                  sport.name
-                                )}
-                                className="mx-2 h-6 w-4"
-                                type="checkbox"
-                                value={sport.name}
-                                onChange={(e) => {
-                                  let arr = preferances.SelectedSport;
-                                  if (e.target.checked) {
-                                    arr.push(e.target.value);
-                                  } else {
-                                    const index = arr.indexOf(e.target.value);
-                                    if (index > -1) {
-                                      arr.splice(index, 1);
-                                    }
-                                  }
-                                  setPreferances({
-                                    ...preferances,
-                                    SelectedSport: arr,
-                                  });
-                                }}
-                              />
-                            </div>
-                          ))}
+                  ) : (
+                    <div>
+                      <div className="flex items-center justify-between">
+                        <Dialog.Title
+                          as="h3"
+                          className="text-2xl font-bold leading-6 text-gray-900 dark:text-white"
+                        >
+                          Preferances
+                        </Dialog.Title>
+                        <XMarkIcon
+                          className="h-6 w-6"
+                          onClick={closeModal}
+                          aria-hidden="true"
+                        />
+                      </div>
+                      <div className="mt-8">
+                        <h1 className="text-xl font-semibold px-2 border-b border-gray-600 dark:border-white pb-2">
+                          Favourite Sports
+                        </h1>
+                        <div className="border-b border-gray-600 dark:border-white pb-2">
+                          <div className="flex flex-wrap p-3">
+                            {!isLoading &&
+                              sports.map((sport: Sport) => (
+                                <div
+                                  key={sport.id}
+                                  className="flex m-2 items-center justify-between w-36"
+                                >
+                                  <label
+                                    className="cursor-pointer"
+                                    htmlFor={sport.name}
+                                  >
+                                    {sport.name}
+                                  </label>
+                                  <input
+                                    id={sport.name}
+                                    checked={preferances?.SelectedSport?.includes(
+                                      sport.name
+                                    )}
+                                    className="mx-2 h-6 w-4"
+                                    type="checkbox"
+                                    value={sport.name}
+                                    onChange={(e) => {
+                                      let arr = preferances.SelectedSport;
+                                      if (e.target.checked) {
+                                        arr.push(e.target.value);
+                                      } else {
+                                        const index = arr.indexOf(
+                                          e.target.value
+                                        );
+                                        if (index > -1) {
+                                          arr.splice(index, 1);
+                                        }
+                                      }
+                                      setPreferances({
+                                        ...preferances,
+                                        SelectedSport: arr,
+                                      });
+                                    }}
+                                  />
+                                </div>
+                              ))}
+                          </div>
+                        </div>
+                        <h1 className="mt-8 text-xl font-semibold px-2 border-b border-gray-600 dark:border-white pb-2">
+                          Favourite Teams
+                        </h1>
+                        <div className="border-b border-gray-600 dark:border-white pb-2">
+                          <div className="flex flex-wrap p-3">
+                            {!isLoading &&
+                              teams.map((team: Team) => (
+                                <div
+                                  key={team.id}
+                                  className="flex m-2 items-center justify-between w-36"
+                                >
+                                  <label
+                                    className="cursor-pointer"
+                                    htmlFor={team.name}
+                                  >
+                                    {team.name}
+                                  </label>
+                                  <input
+                                    id={team.name}
+                                    className="mx-2 h-6 w-4"
+                                    type="checkbox"
+                                    value={team.name}
+                                    checked={preferances?.SelectedTeams?.includes(
+                                      team.name
+                                    )}
+                                    onChange={(e) => {
+                                      let updateTeams =
+                                        preferances.SelectedTeams;
+                                      if (e.target.checked) {
+                                        updateTeams.push(e.target.value);
+                                      } else {
+                                        const index = updateTeams.indexOf(
+                                          e.target.value
+                                        );
+                                        index > -1
+                                          ? updateTeams.splice(index, 1)
+                                          : "";
+                                      }
+                                      setPreferances({
+                                        ...preferances,
+                                        SelectedTeams: updateTeams,
+                                      });
+                                    }}
+                                  />
+                                </div>
+                              ))}
+                          </div>
+                        </div>
+                        <div className="mt-3 flex justify-end">
+                          <button
+                            onClick={closeModal}
+                            className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                          >
+                            Close
+                          </button>
+                        </div>
                       </div>
                     </div>
-                    <h1 className="mt-8 text-xl font-semibold px-2 border-b border-gray-600 pb-2">
-                      Favourite Teams
-                    </h1>
-                    <div className="border-b border-gray-600 pb-2">
-                      <div className="flex flex-wrap p-3">
-                        {!isLoading &&
-                          teams.map((team: Team) => (
-                            <div
-                              key={team.id}
-                              className="flex m-2 items-center justify-between w-36"
-                            >
-                              <label
-                                className="cursor-pointer"
-                                htmlFor={team.name}
-                              >
-                                {team.name}
-                              </label>
-                              <input
-                                id={team.name}
-                                className="mx-2 h-6 w-4"
-                                type="checkbox"
-                                value={team.name}
-                                checked={preferances?.SelectedTeams?.includes(
-                                  team.name
-                                )}
-                                onChange={(e) => {
-                                  let updateTeams = preferances.SelectedTeams;
-                                  if (e.target.checked) {
-                                    updateTeams.push(e.target.value);
-                                  } else {
-                                    const index = updateTeams.indexOf(
-                                      e.target.value
-                                    );
-                                    index > -1
-                                      ? updateTeams.splice(index, 1)
-                                      : "";
-                                  }
-                                  setPreferances({
-                                    ...preferances,
-                                    SelectedTeams: updateTeams,
-                                  });
-                                }}
-                              />
-                            </div>
-                          ))}
-                      </div>
-                    </div>
-                    <div className="mt-3 flex justify-end">
-                      <button
-                        onClick={closeModal}
-                        className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                      >
-                        Close
-                      </button>
-                    </div>
-                  </div>
+                  )}
                 </Dialog.Panel>
               </Transition.Child>
             </div>

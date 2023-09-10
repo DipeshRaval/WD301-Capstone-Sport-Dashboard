@@ -32,8 +32,10 @@ const Appbar = () => {
     let newTheme = "";
     if (theme === "light") {
       newTheme = "dark";
+      document.body.classList.add("dark");
     } else {
       newTheme = "light";
+      document.body.classList.remove("dark");
     }
     setEnabled(!enabled);
     setTheme(newTheme);

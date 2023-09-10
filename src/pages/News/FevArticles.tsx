@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 import { CustomizeContext } from "../../context/customizeState";
 import { FetchPreferences } from "../Preferances";
 import { Team } from "../../context/teams/reducer";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 interface Props {
   fevSport: string;
@@ -41,32 +43,35 @@ export default function FevArticles(props: Props) {
     if (isLoggedIn) {
       const data = await FetchPreferences();
       if (data && !data.errors) {
-        if (
-          (Object.keys(data.preferences).length &&
-            data.preferences.SelectedSport.length) ||
-          data.preferences.SelectedTeams.length
-        ) {
-          const preferanceNews: News[] = [];
-          if (data.preferences.SelectedSport.length) {
-            filteredArticles.forEach((newsItem: any) => {
-              if (
-                data.preferences.SelectedSport.includes(newsItem.sport.name)
-              ) {
-                preferanceNews.push(newsItem);
-              }
-            });
-          }
-          if (data.preferences.SelectedTeams.length) {
-            filteredArticles.forEach((newsItem: News) => {
-              newsItem.teams.forEach((team: any) => {
-                if (data.preferences.SelectedTeams.includes(team.name)) {
+        if (Object.keys(data.preferences).length) {
+          if (
+            data.preferences.SelectedSport.length ||
+            data.preferences.SelectedTeams.length
+          ) {
+            const preferanceNews: News[] = [];
+            if (data.preferences.SelectedSport.length) {
+              filteredArticles.forEach((newsItem: any) => {
+                if (
+                  data.preferences.SelectedSport.includes(newsItem.sport.name)
+                ) {
                   preferanceNews.push(newsItem);
                 }
               });
-            });
-          }
+            }
+            if (data.preferences.SelectedTeams.length) {
+              filteredArticles.forEach((newsItem: News) => {
+                newsItem.teams.forEach((team: any) => {
+                  if (data.preferences.SelectedTeams.includes(team.name)) {
+                    preferanceNews.push(newsItem);
+                  }
+                });
+              });
+            }
 
-          setFevArticles([...new Set(preferanceNews)]);
+            setFevArticles([...new Set(preferanceNews)]);
+          } else {
+            setFevArticles(filteredArticles);
+          }
         } else {
           setFevArticles(filteredArticles);
         }
@@ -81,7 +86,34 @@ export default function FevArticles(props: Props) {
   }, [isOpen, isLoggedIn, isLoading, fevSport, fevTeam]);
 
   if (isLoading) {
-    return <span>Loading....</span>;
+    return (
+      <SkeletonTheme baseColor="#d1cdcd" highlightColor="#adacac">
+        <div className="overflow-y-auto h-[60vh]">
+          {Array(4)
+            .fill(0)
+            .map((ele, idx) => {
+              return (
+                <div
+                  key={idx}
+                  className="bg-white dark:hover:bg-slate-600 hover:bg-slate-200 dark:bg-slate-800 rounded-md mt-3 p-3"
+                >
+                  <h1 className="font-bold text-gray-900 dark:text-white">
+                    <Skeleton height={30} />
+                  </h1>
+                  <p className="text-gray-800 mt-4 dark:text-gray-300">
+                    <Skeleton count={4} />
+                  </p>
+                  <Skeleton
+                    width={200}
+                    height={35}
+                    className="mt-3 block mx-auto"
+                  />
+                </div>
+              );
+            })}
+        </div>
+      </SkeletonTheme>
+    );
   }
 
   if (isError) {
@@ -98,7 +130,7 @@ export default function FevArticles(props: Props) {
 
   return (
     <>
-      <div className="overflow-y-auto h-[55vh]">
+      <div className="overflow-y-auto h-[60vh]">
         {fevArticles.map((newsItem: News) => {
           return (
             <div

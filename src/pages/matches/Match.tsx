@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
 import { API_ENDPOINT } from "../../config/constants";
-import Skeleton from "react-loading-skeleton";
-import "react-loading-skeleton/dist/skeleton.css";
 
 interface Props {
   id: number;

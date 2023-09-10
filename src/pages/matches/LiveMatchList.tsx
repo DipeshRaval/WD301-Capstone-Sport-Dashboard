@@ -63,6 +63,11 @@ export default function LiveMatchList() {
             });
             setMatchesList(matches);
           }
+        } else {
+          matches = matches?.filter((match: any) => {
+            return match.isRunning;
+          });
+          setMatchesList(matches);
         }
       } catch (error) {
         toast.error(`${error}`, {
@@ -88,10 +93,6 @@ export default function LiveMatchList() {
   useEffect(() => {
     settingMatchList();
   }, [isOpen, isLoggedIn, isLoading]);
-
-  if (matches.length === 0 && isLoading) {
-    return <span>Loading...</span>;
-  }
 
   if (isError) {
     return <span>{errorMessage}</span>;

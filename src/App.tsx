@@ -8,14 +8,12 @@ import { SportProvider } from ".//context/sport/context";
 import { TeamProvider } from "./context/teams/context";
 import { ThemeContext } from "./context/theme";
 import { ToastContainer } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   const { theme } = useContext(ThemeContext);
   return (
-    <div
-      className={`w-full mx-auto ${theme === "dark" ? "dark" : ""}`}
-    >
+    <div className={`w-full mx-auto ${theme === "dark" ? "dark" : ""}`}>
       <MatchesProvider>
         <NewsProvider>
           <SportProvider>
@@ -26,7 +24,6 @@ function App() {
         </NewsProvider>
       </MatchesProvider>
       <ToastContainer />
-
     </div>
   );
 }

@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import { CustomizeContext } from "../../context/customizeState";
 import { FetchPreferences } from "../Preferances";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 interface Props {
   filter: string;
@@ -82,6 +84,26 @@ export default function ArticleList(props: Props) {
               setNewsState(news);
             }
           }
+        } else {
+          if (props.filter) {
+            setNewsState(
+              news.filter((newsItem: any) => {
+                return newsItem.sport.name === props.filter;
+              })
+            );
+          } else {
+            setNewsState(news);
+          }
+        }
+      } else {
+        if (props.filter) {
+          setNewsState(
+            news.filter((newsItem: any) => {
+              return newsItem.sport.name === props.filter;
+            })
+          );
+        } else {
+          setNewsState(news);
         }
       }
     } else {
@@ -96,14 +118,6 @@ export default function ArticleList(props: Props) {
       }
     }
   };
-
-  useEffect(() => {
-    settingNewsState();
-    const likeArticles = localStorage.getItem("likeArticles");
-    if (likeArticles) {
-      setLikeNewsState(JSON.parse(likeArticles));
-    }
-  }, [isOpen, isLoading, props]);
 
   const handNewsLikes = (id: number) => {
     const likeArticles = localStorage.getItem("likeArticles");
@@ -129,9 +143,56 @@ export default function ArticleList(props: Props) {
     return `${formatDate}`;
   };
 
+  useEffect(() => {
+    settingNewsState();
+    const likeArticles = localStorage.getItem("likeArticles");
+    if (likeArticles) {
+      setLikeNewsState(JSON.parse(likeArticles));
+    }
+  }, [isOpen, isLoading, props]);
+
   if (news.length === 0 && isLoading) {
-    return <span>Loading...</span>;
+    return (
+      <div className="ml-4 flex flex-col gap-4 overflow-y-auto">
+        <SkeletonTheme baseColor="#d1cdcd" highlightColor="#adacac">
+          {Array(4)
+            .fill(0)
+            .map((ele, index) => {
+              return (
+                <div
+                  key={index}
+                  className="flex justify-between w-full px-4 my-2"
+                >
+                  <div className="border rounded-md w-full dark:hover:bg-gray-600 hover:bg-slate-200 duration-100 transition-colors dark:bg-gray-800 bg-white flex justify-between items-center">
+                    <div className="px-4">
+                      <p className="text-gray-700 mt-3 dark:text-white">
+                        <Skeleton width={80} />
+                      </p>
+                      <h2 className=" dark:text-white text-gray-800 font-bold">
+                        <Skeleton height={30} width={500} />
+                      </h2>
+                      <p className="text-gray-900 my-2 dark:text-gray-100">
+                        <Skeleton count={3} />
+                      </p>
+                      <div className="flex justify-between my-3">
+                        <Skeleton width={100} />
+                        <Skeleton width={100} />
+                      </div>
+                    </div>
+                    <Skeleton
+                      height={180}
+                      className="mr-4"
+                      width={250}
+                    ></Skeleton>
+                  </div>
+                </div>
+              );
+            })}
+        </SkeletonTheme>
+      </div>
+    );
   }
+
   if (isError) {
     return <span>{errorMessage}</span>;
   }
@@ -156,13 +217,13 @@ export default function ArticleList(props: Props) {
   }
 
   return (
-    <div className="overflow-y-auto dark:bg-gray-700 h-[70vh] relative bottom-0">
+    <div className="overflow-y-auto dark:bg-gray-700 h-[75vh] relative bottom-0">
       {!isLoading &&
         newsState.map((newsItem: News) => {
           return (
             <div
               key={newsItem.id}
-              className="fle justify-between w-full px-4 my-2"
+              className="flex justify-between w-full px-4 my-2"
             >
               <div className="border rounded-md w-full dark:hover:bg-gray-600 hover:bg-slate-200 duration-100 transition-colors dark:bg-gray-800 bg-white flex justify-between items-center">
                 <div className="px-4">

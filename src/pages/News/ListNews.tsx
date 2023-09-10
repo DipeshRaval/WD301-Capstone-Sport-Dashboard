@@ -52,6 +52,8 @@ export default function ListNews() {
         data.preferences.SelectedSport.length !== 0
           ? setOptionSport(data.preferences.SelectedSport)
           : setOptionSport(sports.map((sport: Sport) => sport.name));
+      } else {
+        setOptionSport(sports.map((sport: Sport) => sport.name));
       }
     } else {
       setOptionSport(sports.map((sport: Sport) => sport.name));

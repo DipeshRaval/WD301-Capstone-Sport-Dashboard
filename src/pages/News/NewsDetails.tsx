@@ -3,6 +3,7 @@ import { Dialog, Transition, Listbox } from "@headlessui/react";
 import { useParams, useNavigate } from "react-router-dom";
 import { API_ENDPOINT } from "../../config/constants";
 import { Team, Sport } from "../../context/news/reducer";
+import Loading from "../../assets/loading.gif";
 
 interface ArticleDetails {
   id: number;
@@ -20,8 +21,10 @@ const NewsDetails = () => {
   const [isLoading, setIsLoading] = useState(false);
   let navigate = useNavigate();
   const { articleID } = useParams();
-
   const [article, setArticle] = useState<ArticleDetails | undefined>(undefined);
+  const [isError, setIsError] = useState(false);
+
+  const [errorMsg, setErrorMsg] = useState<string[]>([]);
 
   function closeModal() {
     setIsOpen(false);
@@ -36,11 +39,15 @@ const NewsDetails = () => {
         headers: { "Content-Type": "application/json" },
       });
 
+      const data = await response.json();
+
       if (!response.ok) {
-        throw new Error("Failed to fetch article");
+        setIsLoading(false);
+        setIsError(true);
+        setErrorMsg(data.errors);
+        throw new Error(data.errors);
       }
 
-      const data = await response.json();
       setArticle(data);
       setIsLoading(false);
     } catch (error) {
@@ -57,6 +64,10 @@ const NewsDetails = () => {
     const formatDate = newDate.toDateString();
     return `${formatDate}`;
   };
+
+  if (isError) {
+    throw new Error(`${errorMsg}`);
+  }
 
   return (
     <>
@@ -84,14 +95,18 @@ const NewsDetails = () => {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-2xl transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                <Dialog.Panel className="w-full max-w-2xl transform overflow-hidden rounded-2xl bg-white dark:bg-gray-600 p-6 text-left align-middle shadow-xl transition-all">
                   {isLoading ? (
-                    <p>Loading...</p>
+                    <img
+                      src={Loading}
+                      className="h-8 mx-auto w-8"
+                      alt="Loading..."
+                    />
                   ) : (
                     <>
                       <Dialog.Title
                         as="h3"
-                        className="text-xl text-center border-b border-gray-600 pb-2 font-bold leading-6 text-gray-900"
+                        className="text-xl text-center border-b border-gray-600 dark:border-gray-200 pb-2 font-bold leading-6 text-gray-900 dark:text-white"
                       >
                         {article?.title}
                       </Dialog.Title>
