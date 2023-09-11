@@ -9,6 +9,8 @@ import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useTeamState } from "../../context/teams/context";
 import { Team } from "../../context/teams/reducer";
+import Finding from "../../assets/find.gif";
+
 interface Props {
   filter: string;
   sortType: string;
@@ -332,11 +334,7 @@ export default function ArticleList(props: Props) {
   }
 
   if (newsState.length === 0) {
-    return (
-      <span className="ml-8 dark:text-white dark:bg-gray-700">
-        No articles for this Selection{" "}
-      </span>
-    );
+    return <img src={Finding} alt="loading" className="mx-auto" />;
   }
 
   return (
