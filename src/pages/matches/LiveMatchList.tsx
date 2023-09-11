@@ -63,7 +63,7 @@ export default function LiveMatchList() {
                 filterMatches.push(...filterMatchesBySport);
               }
             });
-            setMatchesList(filterMatches);
+            setMatchesList([...new Set(filterMatches)]);
           } else if (data.preferences.SelectedSport.length) {
             setMatchesList(
               matches.filter((match: any) => {

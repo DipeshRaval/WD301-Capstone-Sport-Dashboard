@@ -77,8 +77,6 @@ export default function ArticleList(props: Props) {
               return newsItem.sport.name === props.filter;
             });
 
-            console.log(filterBySport);
-
             const teamsForSelectedSport = teams.filter((team: Team) => {
               return team.plays === props.filter;
             });
@@ -104,7 +102,7 @@ export default function ArticleList(props: Props) {
             } else {
               filterNews.push(...filterBySport);
             }
-            setNewsState(filterNews);
+            setNewsState([...new Set(filterNews)]);
           } else {
             if (
               data.preferences.SelectedSport.length &&
@@ -142,7 +140,7 @@ export default function ArticleList(props: Props) {
                   filterNews.push(...filterNewsBySport);
                 }
               });
-              setNewsState(filterNews);
+              setNewsState([...new Set(filterNews)]);
             } else if (data?.preferences.SelectedSport.length) {
               setNewsState(
                 news.filter((newsItem: any) => {
@@ -296,8 +294,6 @@ export default function ArticleList(props: Props) {
       </span>
     );
   }
-
-  console.log(newsState);
 
   return (
     <div className="overflow-y-auto dark:bg-gray-700 h-[75vh] relative bottom-0">
