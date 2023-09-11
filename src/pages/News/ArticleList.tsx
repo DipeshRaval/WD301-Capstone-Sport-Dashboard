@@ -334,7 +334,14 @@ export default function ArticleList(props: Props) {
   }
 
   if (newsState.length === 0) {
-    return <img src={Finding} alt="loading" className="mx-auto" />;
+    return (
+      <div>
+        <img src={Finding} alt="loading" className="mx-auto" />
+        <p className="text-center mt-2">Searching for Articles</p>
+        <p className="font-bold text-center mx-2">OR</p>
+        <p className="text-center">No Articles for this Selection</p>
+      </div>
+    );
   }
 
   return (
