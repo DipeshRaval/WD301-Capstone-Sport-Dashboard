@@ -61,6 +61,42 @@ export default function ArticleList(props: Props) {
     }
   }
 
+  const applyFilter = (newsToSort: News[]) => {
+    if (props.sortType === "Date") {
+      return newsToSort.sort((a: News, b: News) => {
+        return new Date(b.date).getTime() - new Date(a.date).getTime();
+      });
+    } else if (props.sortType === "Title") {
+      return newsToSort.sort((a: News, b: News) => {
+        if (a.title < b.title) {
+          return -1;
+        }
+        if (a.title > b.title) {
+          return 1;
+        }
+        return 0;
+      });
+    } else if (props.sortType === "Sport Type") {
+      return newsToSort.sort((a: News, b: News) => {
+        if (a.sport.name < b.sport.name) {
+          return -1;
+        }
+        if (a.sport.name > b.sport.name) {
+          return 1;
+        }
+        return 0;
+      });
+    } else if (props.sortType === "Favourites") {
+      const likesArticles = localStorage.getItem("likeArticles");
+      if (likesArticles) {
+        const likesArticlesArray = JSON.parse(likesArticles);
+        return newsToSort.filter((newsItem: News) => {
+          return likesArticlesArray.includes(newsItem.id);
+        });
+      }
+    }
+  };
+
   const { isOpen } = useContext(CustomizeContext);
   const isLoggedIn = !!localStorage.getItem("userData");
 
@@ -102,7 +138,11 @@ export default function ArticleList(props: Props) {
             } else {
               filterNews.push(...filterBySport);
             }
-            setNewsState([...new Set(filterNews)]);
+            if (props.sortType && props.sortType !== "Sort By: ") {
+              setNewsState(applyFilter([...new Set(filterNews)]));
+            } else {
+              setNewsState([...new Set(filterNews)]);
+            }
           } else {
             if (
               data.preferences.SelectedSport.length &&
@@ -140,7 +180,11 @@ export default function ArticleList(props: Props) {
                   filterNews.push(...filterNewsBySport);
                 }
               });
-              setNewsState([...new Set(filterNews)]);
+              if (props.sortType && props.sortType !== "Sort By: ") {
+                setNewsState(applyFilter([...new Set(filterNews)]));
+              } else {
+                setNewsState([...new Set(filterNews)]);
+              }
             } else if (data?.preferences.SelectedSport.length) {
               setNewsState(
                 news.filter((newsItem: any) => {
