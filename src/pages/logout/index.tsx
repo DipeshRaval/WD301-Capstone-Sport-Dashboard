@@ -20,7 +20,7 @@ const Logout = () => {
     theme: "colored",
   });
 
-  return <Navigate to="/" />;
+  return <Navigate to="/signin" />;
 };
 
 export default Logout;

@@ -111,7 +111,7 @@ export default function LiveMatchList() {
           progress: undefined,
           theme: "colored",
         });
-        navigate("/logout");
+        navigate("/signin");
       }
     } else {
       setMatchesList(
