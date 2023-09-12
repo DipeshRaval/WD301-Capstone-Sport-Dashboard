@@ -323,7 +323,7 @@ export default function ArticleList(props: Props) {
   }
 
   if (
-    (localStorage.getItem("likeArticles") == null || newsState.length === 0) &&
+    (localStorage.getItem("likeArticles") == null || newsState?.length === 0) &&
     props.sortType === "Favourites"
   ) {
     return (
@@ -333,7 +333,7 @@ export default function ArticleList(props: Props) {
     );
   }
 
-  if (newsState.length === 0) {
+  if (newsState?.length === 0) {
     return (
       <div>
         <img src={Finding} alt="loading" className="mx-auto" />
@@ -347,7 +347,7 @@ export default function ArticleList(props: Props) {
   return (
     <div className="overflow-y-auto dark:bg-gray-700 h-[75vh] relative bottom-0">
       {!isLoading &&
-        newsState.map((newsItem: News) => {
+        newsState?.map((newsItem: News) => {
           return (
             <div
               key={newsItem.id}
