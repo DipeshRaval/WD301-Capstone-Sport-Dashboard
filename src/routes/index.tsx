@@ -1,4 +1,4 @@
-import { Outlet, createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 import Signin from "../pages/signin";
 import AccountLayout from "../layout/account";
 import Signup from "../pages/signup";
@@ -8,7 +8,6 @@ import NewsDetails from "../pages/News/NewsDetails";
 import NewsContainer from "../pages/News";
 import ChnagePassword from "../pages/chnagePassword";
 import Preferances from "../layout/account/Preferances";
-import ErrorBoundary from "../components/ErrorBoundary";
 import NotFound from "../pages/notFound";
 
 const router = createBrowserRouter([

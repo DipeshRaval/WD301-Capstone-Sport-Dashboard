@@ -117,6 +117,15 @@ const SigninForm: React.FC = () => {
           Register Here
         </Link>
       </p>
+      <p className="font-bold text-center mt-1">OR</p>
+      <p className=" text-center">
+        <Link
+          className="font-bold text-blue-800  dark:text-blue-400 underline mx-2"
+          to="/"
+        >
+          Start As Guest
+        </Link>
+      </p>
     </form>
   );
 };

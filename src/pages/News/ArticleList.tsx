@@ -323,12 +323,12 @@ export default function ArticleList(props: Props) {
   }
 
   if (
-    localStorage.getItem("likeArticles") == null &&
+    (localStorage.getItem("likeArticles") == null || newsState.length === 0) &&
     props.sortType === "Favourites"
   ) {
     return (
       <span className="ml-8 dark:text-white dark:bg-gray-700">
-        No articles for Favourite Aeticles{" "}
+        No favourite aeticles for selection
       </span>
     );
   }

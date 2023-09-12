@@ -16,8 +16,6 @@ export const FetchPreferences = async () => {
   });
 
   const data: Data = await response.json();
-  console.log(data);
-
   return data;
 };
 

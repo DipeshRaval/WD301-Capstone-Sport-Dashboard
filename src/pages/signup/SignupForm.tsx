@@ -116,7 +116,7 @@ const SignupForm: React.FC = () => {
       >
         Sign up
       </button>
-      <p className="mt-2 ">
+      <p className="mt-2 text-center">
         <span className="text-gray-900 dark:text-gray-200">
           Are you existing User ?{" "}
         </span>
@@ -125,6 +125,15 @@ const SignupForm: React.FC = () => {
           to="/signin"
         >
           Login Here
+        </Link>
+      </p>
+      <p className="font-bold text-center mt-1">OR</p>
+      <p className=" text-center">
+        <Link
+          className="font-bold text-blue-800  dark:text-blue-400 underline mx-2"
+          to="/"
+        >
+          Start As Guest
         </Link>
       </p>
     </form>
