@@ -1,10 +1,10 @@
 import { API_ENDPOINT } from "../config/constants";
 import { UserPreferances } from "../layout/account/Preferances";
 
-export type Data ={
-  preferences:UserPreferances;
-  errors?:string[];
-}
+export type Data = {
+  preferences: UserPreferances;
+  errors?: string[];
+};
 export const FetchPreferences = async () => {
   const token: string | null = localStorage.getItem("authToken");
   const response = await fetch(`${API_ENDPOINT}/user/preferences`, {

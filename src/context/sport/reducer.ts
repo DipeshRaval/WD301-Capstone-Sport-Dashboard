@@ -1,6 +1,6 @@
 export interface Sport {
-  id : number;
-  name : string;
+  id: number;
+  name: string;
 }
 
 export interface SportState {
@@ -14,20 +14,23 @@ export const initialState: SportState = {
   sports: [],
   isLoading: false,
   isError: false,
-  errorMessage: ''
+  errorMessage: "",
 };
 
 export type SportActions =
-  | { type: 'FETCH_SPORT_REQUEST' }
-  | { type: 'FETCH_SPORT_SUCCESS'; payload: Sport[] }
-  | { type: 'FETCH_SPORT_FAILURE'; payload: string }
+  | { type: "FETCH_SPORT_REQUEST" }
+  | { type: "FETCH_SPORT_SUCCESS"; payload: Sport[] }
+  | { type: "FETCH_SPORT_FAILURE"; payload: string };
 
-export const reducer = (state:  SportState = initialState, action: SportActions): SportState => {
+export const reducer = (
+  state: SportState = initialState,
+  action: SportActions
+): SportState => {
   switch (action.type) {
     case "FETCH_SPORT_REQUEST":
       return {
         ...state,
-        isLoading: true
+        isLoading: true,
       };
     case "FETCH_SPORT_SUCCESS":
       return {
@@ -40,9 +43,9 @@ export const reducer = (state:  SportState = initialState, action: SportActions)
         ...state,
         isLoading: false,
         isError: true,
-        errorMessage: action.payload
+        errorMessage: action.payload,
       };
     default:
       return state;
   }
-}
+};

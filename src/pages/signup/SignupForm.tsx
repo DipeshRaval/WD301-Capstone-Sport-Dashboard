@@ -66,6 +66,11 @@ const SignupForm: React.FC = () => {
     }
   };
 
+  const guestStart = () => {
+    localStorage.removeItem("userData");
+    localStorage.removeItem("authToken");
+  };
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div>
@@ -128,7 +133,7 @@ const SignupForm: React.FC = () => {
         </Link>
       </p>
       <p className="font-bold text-center mt-1">OR</p>
-      <p className=" text-center">
+      <p className="text-center" onClick={guestStart}>
         <Link
           className="font-bold text-blue-800  dark:text-blue-400 underline mx-2"
           to="/"

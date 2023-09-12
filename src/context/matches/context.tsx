@@ -4,10 +4,13 @@ import { reducer, initialState, MatchesState, MatchesActions } from "./reducer";
 const MatchesStateContext = createContext<MatchesState | undefined>(undefined);
 
 type MatchesDispatch = React.Dispatch<MatchesActions>;
-const MatchesDispatchContext = createContext<MatchesDispatch | undefined>(undefined);
+const MatchesDispatchContext = createContext<MatchesDispatch | undefined>(
+  undefined
+);
 
-export const MatchesProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
-{
+export const MatchesProvider: React.FC<React.PropsWithChildren> = ({
+  children,
+}) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   return (

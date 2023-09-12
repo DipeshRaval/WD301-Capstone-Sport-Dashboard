@@ -1,7 +1,7 @@
 export interface Team {
-  id : number;
-  name : string;
-  plays : string;
+  id: number;
+  name: string;
+  plays: string;
 }
 
 export interface TeamState {
@@ -15,20 +15,23 @@ export const initialState: TeamState = {
   teams: [],
   isLoading: false,
   isError: false,
-  errorMessage: ''
+  errorMessage: "",
 };
 
 export type TeamActions =
-  | { type: 'FETCH_TEAM_REQUEST' }
-  | { type: 'FETCH_TEAM_SUCCESS'; payload: Team[] }
-  | { type: 'FETCH_TEAM_FAILURE'; payload: string }
+  | { type: "FETCH_TEAM_REQUEST" }
+  | { type: "FETCH_TEAM_SUCCESS"; payload: Team[] }
+  | { type: "FETCH_TEAM_FAILURE"; payload: string };
 
-export const reducer = (state:  TeamState = initialState, action: TeamActions): TeamState => {
+export const reducer = (
+  state: TeamState = initialState,
+  action: TeamActions
+): TeamState => {
   switch (action.type) {
     case "FETCH_TEAM_REQUEST":
       return {
         ...state,
-        isLoading: true
+        isLoading: true,
       };
     case "FETCH_TEAM_SUCCESS":
       return {
@@ -41,9 +44,9 @@ export const reducer = (state:  TeamState = initialState, action: TeamActions): 
         ...state,
         isLoading: false,
         isError: true,
-        errorMessage: action.payload
+        errorMessage: action.payload,
       };
     default:
       return state;
   }
-}
+};

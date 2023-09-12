@@ -4,7 +4,9 @@ import { reducer, initialState, SportState, SportActions } from "./reducer";
 const SportStateContext = createContext<SportState | undefined>(undefined);
 
 type SportDispatch = React.Dispatch<SportActions>;
-const SportDispatchContext = createContext<SportDispatch | undefined>(undefined);
+const SportDispatchContext = createContext<SportDispatch | undefined>(
+  undefined
+);
 
 export const SportProvider: React.FC<React.PropsWithChildren> = ({
   children,
