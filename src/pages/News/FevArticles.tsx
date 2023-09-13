@@ -43,13 +43,13 @@ export default function FevArticles(props: Props) {
     if (isLoggedIn) {
       const data = await FetchPreferences();
       if (data && !data.errors) {
-        if (Object.keys(data.preferences).length) {
+        if (Object.keys(data?.preferences).length) {
           if (
-            data.preferences.SelectedSport.length ||
-            data.preferences.SelectedTeams.length
+            data?.preferences?.SelectedSport.length ||
+            data?.preferences?.SelectedTeams.length
           ) {
             const preferanceNews: News[] = [];
-            if (data.preferences.SelectedSport.length) {
+            if (data?.preferences?.SelectedSport.length) {
               filteredArticles.forEach((newsItem: any) => {
                 if (
                   data.preferences.SelectedSport.includes(newsItem.sport.name)
@@ -58,7 +58,7 @@ export default function FevArticles(props: Props) {
                 }
               });
             }
-            if (data.preferences.SelectedTeams.length) {
+            if (data?.preferences?.SelectedTeams.length) {
               filteredArticles.forEach((newsItem: News) => {
                 newsItem.teams.forEach((team: any) => {
                   if (data.preferences.SelectedTeams.includes(team.name)) {

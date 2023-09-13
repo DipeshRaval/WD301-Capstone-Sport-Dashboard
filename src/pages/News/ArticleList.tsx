@@ -125,7 +125,7 @@ export default function ArticleList(props: Props) {
               })
             ) {
               teamsForSelectedSport.forEach((team: Team) => {
-                if (data.preferences.SelectedTeams.includes(team.name)) {
+                if (data?.preferences?.SelectedTeams.includes(team.name)) {
                   filterBySport.forEach((newsItem: any) => {
                     if (
                       newsItem.teams.some((teamObj: any) => {
@@ -147,11 +147,11 @@ export default function ArticleList(props: Props) {
             }
           } else {
             if (
-              data.preferences.SelectedSport.length &&
-              data.preferences.SelectedTeams.length
+              data?.preferences?.SelectedSport.length &&
+              data?.preferences?.SelectedTeams.length
             ) {
               let filterNews: any[] = [];
-              data.preferences.SelectedSport.forEach((sport: string) => {
+              data?.preferences?.SelectedSport.forEach((sport: string) => {
                 let filterNewsBySport = news.filter((newsItem: any) => {
                   return newsItem.sport.name === sport;
                 });
@@ -166,7 +166,7 @@ export default function ArticleList(props: Props) {
                   })
                 ) {
                   teamsForSelectedSport.forEach((team: Team) => {
-                    if (data.preferences.SelectedTeams.includes(team.name)) {
+                    if (data?.preferences?.SelectedTeams.includes(team.name)) {
                       filterNewsBySport.forEach((newsItem: any) => {
                         if (
                           newsItem.teams.some((teamObj: any) => {
@@ -187,7 +187,7 @@ export default function ArticleList(props: Props) {
               } else {
                 setNewsState([...new Set(filterNews)]);
               }
-            } else if (data?.preferences.SelectedSport.length) {
+            } else if (data?.preferences?.SelectedSport.length) {
               setNewsState(
                 news.filter((newsItem: any) => {
                   return data?.preferences.SelectedSport.includes(
@@ -195,7 +195,7 @@ export default function ArticleList(props: Props) {
                   );
                 })
               );
-            } else if (data.preferences.SelectedTeams.length) {
+            } else if (data?.preferences?.SelectedTeams.length) {
               let filterNews: any[] = [];
               news.forEach((newsItem: any) => {
                 newsItem.teams.forEach((team: any) => {
