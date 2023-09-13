@@ -43,6 +43,8 @@
   - User can make any match and articles as a Favourite
 
   - User can chenged their password
+
+  - Entire app is a PWA app.
     
 # Screenshots
 
